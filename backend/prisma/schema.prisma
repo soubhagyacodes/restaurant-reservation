@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String @id @default(uuid())
+  name         String
+  email        String @unique
+  passwordHash String
+  role         Role
+
+  owned        Restaurant[]
+  reservations Reservation[]
+}
+
+model Restaurant {
+  id          String  @id @default(uuid())
+  name        String
+  location    String
+  description String? @default("")
+
+  ownerId String // FK
+
+  owner  User    @relation(fields: [ownerId], references: [id])
+  tables Table[]
+}
+
+model Table {
+  id          String  @id @default(uuid())
+  tableNumber Int
+  seats       Int
+  isAvailable Boolean
+
+  restaurantId String // FK
+
+  ofRestaurant       Restaurant    @relation(fields: [restaurantId], references: [id])
+  reservationHistory Reservation[]
+
+  @@unique([tableNumber, restaurantId])
+}
+
+model Reservation {
+  id              String   @id @default(uuid())
+  reservationTime DateTime @default(now())
+  duration        Int
+  status          Status
+
+  userId  String // FK
+  tableId String // FK
+
+  tableReserved Table @relation(fields: [tableId], references: [id])
+  reservationBy User  @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  CUSTOMER
+  OWNER
+}
+
+enum Status {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
