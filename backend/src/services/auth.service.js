@@ -4,6 +4,7 @@ import 'dotenv/config'
 import jwt from "jsonwebtoken"
 
 async function registerUser(rawDataObject){
+
     const hashedPass = await bcrypt.hash(rawDataObject.passwordHash, 10);
 
     const data = {
@@ -11,8 +12,10 @@ async function registerUser(rawDataObject){
         passwordHash: hashedPass,
     }
 
-    const newUser = await prisma.user.create({
-        data: data
+    const newUser = await prisma.user.upsert({
+        where: {email: rawDataObject.email},
+        update: {passwordHash: rawDataObject.passwordHash},
+        create: data
     })
 
     const { id, name, role, email} = newUser

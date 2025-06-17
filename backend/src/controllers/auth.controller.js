@@ -1,6 +1,5 @@
 import { matchedData, validationResult } from 'express-validator';
 import { comparePassword, generateJWT, registerUser } from '../services/auth.service.js';
-import bcrypt from 'bcryptjs';
 import prisma from '../../prisma/client.js';
 
 const registerController = async (request, response) => {
@@ -20,8 +19,9 @@ const registerController = async (request, response) => {
         */ 
 
    try {
-       const existing = await prisma.user.findUnique({ where: { email: rawData.email } });
+       const existing = await prisma.user.findFirst({ where: {AND:[{ email: rawData.email }, {NOT: {passwordHash: null}}]} });
        if (existing) throw new Error("UserExists");
+       
         const user = await registerUser(rawData)
         console.log(`User Registered ${JSON.stringify(user)}`)
         return response.status(200).send({"status": "Registered", "user": user})

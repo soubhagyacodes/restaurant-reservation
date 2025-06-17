@@ -3,14 +3,16 @@ import 'dotenv/config'
 import cookieParser from 'cookie-parser';
 import jwtVerify from './src/middlewares/jwtVerify.js';
 import authRoutes from './src/routes/auth.routes.js'
+import passport from "passport";
+import './src/services/oauth-strategy.js'
 
 export const app = express()
 const port = process.env.PORT
 app.use(express.json())
 app.use(cookieParser())
+app.use(passport.initialize());
 
 // AUTHENTICATION
-
 app.use("/api/auth", authRoutes)
 
 // Protected Routes
