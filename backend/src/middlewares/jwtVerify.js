@@ -21,7 +21,7 @@ function jwtVerify(request, response, next){
             return next()  
         }
 
-        return response.status(400).send({"msg": "You're Not Authorised, Login Again"})
+        return response.status(400).send({"msg": "You're Not Authorised, Login Again", "devError": "JWT unverified or doesn't exist"})
     });
 }
 

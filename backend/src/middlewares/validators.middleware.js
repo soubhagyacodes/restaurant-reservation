@@ -6,6 +6,7 @@ const registerValidator =  [
         .exists().withMessage("name is Missing")
         .isString().withMessage("name must be a string")
         .notEmpty().withMessage("name must not be empty")
+        .isLength({max: 40})
         .trim(),
 
     body("email")
@@ -48,4 +49,29 @@ const loginValidator = [
             .isString().withMessage("password must be a string")
     ]
 
-export { registerValidator, loginValidator }
+const restaurantValidator = [
+    // name        String
+    // location    String
+    // description String? @default("")
+    // ownerId String 
+    body("name")
+        .exists().withMessage("name is Missing")
+        .isString().withMessage("name must be a string")
+        .notEmpty().withMessage("name must not be empty")
+        .isLength({max: 40})
+        .trim(),
+
+    body("location")
+        .exists().withMessage("location is Missing")
+        .isString().withMessage("location must be a string")
+        .notEmpty().withMessage("location must not be empty")
+        .isLength({max: 160})
+        .trim(),
+
+    body("description")
+        .isString().withMessage("description must be a string")
+        .optional()
+        .isLength({max: 1000})
+        .trim(),
+]
+export { registerValidator, loginValidator, restaurantValidator }

@@ -5,6 +5,7 @@ import jwtVerify from './src/middlewares/jwtVerify.js';
 import authRoutes from './src/routes/auth.routes.js'
 import passport from "passport";
 import './src/services/oauth-strategy.js'
+import restaurantRoutes from './src/routes/restaurant.routes.js'
 
 export const app = express()
 const port = process.env.PORT
@@ -15,8 +16,13 @@ app.use(passport.initialize());
 // AUTHENTICATION
 app.use("/api/auth", authRoutes)
 
-// Protected Routes
+// ------- Protected Routes -----------
 app.use(jwtVerify)
+
+// Restaurant
+app.use("/api", restaurantRoutes)
+
+
 
 app.get("/api/auth/me", (req, res) => {
     const { name, email } = req.user

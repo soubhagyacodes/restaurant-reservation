@@ -14,7 +14,7 @@ async function registerUser(rawDataObject){
 
     const newUser = await prisma.user.upsert({
         where: {email: rawDataObject.email},
-        update: {passwordHash: rawDataObject.passwordHash},
+        update: {passwordHash: hashedPass},
         create: data
     })
 
