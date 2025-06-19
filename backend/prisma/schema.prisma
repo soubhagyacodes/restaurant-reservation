@@ -33,7 +33,7 @@ model Restaurant {
 
   ownerId String // FK
 
-  owner  User    @relation(fields: [ownerId], references: [id])
+  owner  User    @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   tables Table[]
 }
 
@@ -45,7 +45,7 @@ model Table {
 
   restaurantId String // FK
 
-  ofRestaurant       Restaurant    @relation(fields: [restaurantId], references: [id])
+  ofRestaurant       Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   reservationHistory Reservation[]
 
   @@unique([tableNumber, restaurantId])
@@ -60,8 +60,8 @@ model Reservation {
   userId  String // FK
   tableId String // FK
 
-  tableReserved Table @relation(fields: [tableId], references: [id])
-  reservationBy User  @relation(fields: [userId], references: [id])
+  tableReserved Table @relation(fields: [tableId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  reservationBy User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 enum Role {
