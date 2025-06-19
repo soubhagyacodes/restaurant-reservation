@@ -6,6 +6,7 @@ import authRoutes from './src/routes/auth.routes.js'
 import passport from "passport";
 import './src/services/oauth-strategy.js'
 import restaurantRoutes from './src/routes/restaurant.routes.js'
+import tableRoutes from './src/routes/tables.routes.js'
 
 export const app = express()
 const port = process.env.PORT
@@ -21,6 +22,9 @@ app.use(jwtVerify)
 
 // Restaurant
 app.use("/api", restaurantRoutes)
+
+// Tables
+app.use("/api", tableRoutes)
 
 
 

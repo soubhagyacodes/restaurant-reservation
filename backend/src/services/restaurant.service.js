@@ -1,6 +1,6 @@
 import prisma from '../../prisma/client.js'
 
-async function createRestaurant(data){
+async function createRestaurant(data) {
     const restaurant = await prisma.restaurant.create({
         data: data
     })
@@ -8,9 +8,9 @@ async function createRestaurant(data){
     return restaurant
 }
 
-async function updateRestaurant(id, data){
+async function updateRestaurant(id, data) {
     const updatedrestaurant = await prisma.restaurant.update({
-        where:{
+        where: {
             id: id
         },
         data: data
@@ -19,6 +19,15 @@ async function updateRestaurant(id, data){
     return updatedrestaurant
 }
 
+async function findRestaurant(id) {
+    const restaurantFound = await prisma.restaurant.findUnique({
+        where: {
+            id
+        }
+    })
+
+    return restaurantFound
+}
 
 
-export { createRestaurant, updateRestaurant }
+export { createRestaurant, updateRestaurant, findRestaurant }

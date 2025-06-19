@@ -1,5 +1,5 @@
 import { matchedData, validationResult } from "express-validator"
-import { createRestaurant, updateRestaurant } from "../services/restaurant.service.js"
+import { createRestaurant, findRestaurant, updateRestaurant } from "../services/restaurant.service.js"
 import prisma from "../../prisma/client.js"
 
 async function createRestaurantHandler(request, response) {
@@ -31,11 +31,7 @@ async function createRestaurantHandler(request, response) {
 
 async function getRestaurantByIDHandler(request, response) {
     try {
-        const restaurantFound = await prisma.restaurant.findUnique({
-            where: {
-                id: request.params.id
-            }
-        })
+        const restaurantFound = await findRestaurant(request.params.id)
 
         if (restaurantFound) return response.status(200).send(restaurantFound)
 
