@@ -46,7 +46,7 @@ async function createReservationHandler(request, response){
         }
     } catch (error) {
         console.log(error)
-        return response.status(400).send({"msg": "Something went wrong when finding for conflicts of reservation."})
+        return response.status(500).send({"msg": "Something went wrong when finding for conflicts of reservation."})
     }
 
     try {
@@ -61,8 +61,7 @@ async function createReservationHandler(request, response){
         return response.status(200).send(reservation)
     } catch (error) {
         if(error.code == 'P2002') return response.status(400).send({"msg": "Reservation already exists at the same time and of same duration."})
-        console.log(error.code)
-        return response.status(400).send({"msg": "Something went wrong when creating the reservation."})
+        return response.status(500).send({"msg": "Something went wrong when creating the reservation."})
 
     }
 }
@@ -76,7 +75,7 @@ async function viewReservationHandler(request, response){
         return response.status(200).send(reservations)
     } catch (error) {
         console.log(error)
-        return response.status(400).send({"msg": "Something went wrong when viewing the user reservations."})
+        return response.status(500).send({"msg": "Something went wrong when viewing the user reservations."})
 
     }
 }
@@ -91,7 +90,7 @@ async function deleteReservationHandler(request, response){
 
             return response.status(400).send({"msg": "reservation Not Found"})
         }
-        return response.status(400).send({"msg": "Something went wrong while deleting the reservation"})
+        return response.status(500).send({"msg": "Something went wrong while deleting the reservation"})
         
     }
 }
@@ -117,7 +116,7 @@ async function tableReservationsHandler(request, response){
 
     } catch (error) {
         console.log(error)
-        return response.status(400).send({"msg": "Something went wrong while finding the reservations of the table."})
+        return response.status(500).send({"msg": "Something went wrong while finding the reservations of the table."})
 
     }
 }

@@ -124,4 +124,21 @@ const reservationValidator = [
         .trim()
 ]
 
-export { registerValidator, loginValidator, restaurantValidator, tableValidator, reservationValidator }
+const statusValidator = [
+    body("status")
+        .exists().withMessage("status does not exist.")
+        .isString().withMessage("status must be a string")
+        .notEmpty().withMessage("status is empty.")
+        .trim()
+        .custom(value => {
+            const upperValue = value.toUpperCase()
+            if (upperValue === "PENDING" || upperValue === "CONFIRMED" || upperValue === "CANCELLED")
+                return true
+            else {
+                throw false
+            }
+        }).withMessage("status must be pending or confirmed or cancelled")
+        .toUpperCase()
+]
+
+export { registerValidator, loginValidator, restaurantValidator, tableValidator, reservationValidator, statusValidator }

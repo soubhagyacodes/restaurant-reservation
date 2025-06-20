@@ -24,7 +24,7 @@ async function createRestaurantHandler(request, response) {
 
     } catch (error) {
         console.log(error)
-        return response.status(400).send({ "msg": "Something went wrong while creating the restaurant" })
+        return response.status(500).send({ "msg": "Something went wrong while creating the restaurant" })
     }
 }
 
@@ -38,7 +38,7 @@ async function getRestaurantByIDHandler(request, response) {
         return response.status(404).send({ "msg": "Restaurant not found" })
     } catch (error) {
         console.log(error)
-        return response.status(400).send({ "msg": "Something went wrong when finding the restaurant" })
+        return response.status(500).send({ "msg": "Something went wrong when finding the restaurant" })
     }
 }
 
@@ -56,7 +56,7 @@ async function restaurantsOfUserHandler(request, response) {
         return response.status(404).send({ "msg": "Restaurants not found" })
     } catch (error) {
         console.log(error)
-        return response.status(400).send({ "msg": "Something went wrong when finding the restaurants of the user" })
+        return response.status(500).send({ "msg": "Something went wrong when finding the restaurants of the user" })
     }
 }
 
@@ -82,7 +82,7 @@ async function putRestaurantByIDHandler(request, response){
 
     } catch (error) {
         console.log(error)
-        return response.status(400).send({ "msg": "Something went wrong while updating the restaurant" })
+        return response.status(500).send({ "msg": "Something went wrong while updating the restaurant" })
     }
 }
 
@@ -99,7 +99,7 @@ async function deleteRestaurantByIDHandler(request, response){
 
             return response.status(400).send({"msg": "restaurant Not Found"})
         }
-        return response.status(400).send({"msg": "Something went wrong while deleting the restaurant"})
+        return response.status(500).send({"msg": "Something went wrong while deleting the restaurant"})
         
     }
     

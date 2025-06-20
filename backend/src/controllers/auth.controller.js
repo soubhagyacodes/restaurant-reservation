@@ -27,7 +27,7 @@ const registerController = async (request, response) => {
         return response.status(200).send({"status": "Registered", "user": user})
     } 
     catch (e) {
-        return response.status(400).send({"status": "Something's Wrong", "error": e.message})
+        return response.status(500).send({"status": "Something's Wrong", "error": e.message})
     }
 
 }
@@ -75,7 +75,7 @@ const loginController = async (request, response) => {
         } 
         catch (e) {
             console.log(e)
-            return response.status(400).send({"msg": "something went wrong. try again."})
+            return response.status(500).send({"msg": "something went wrong. try again."})
         }
 }
 
