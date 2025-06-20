@@ -96,4 +96,32 @@ const tableValidator = [
         }).withMessage("isAvailable must be boolean") 
 ]
 
-export { registerValidator, loginValidator, restaurantValidator, tableValidator }
+const reservationValidator = [
+//   reservationTime DateTime @default(now())
+//   duration        Int
+
+//   userId  String
+//   tableId String 
+
+    body("reservationTime")
+        .exists().withMessage("reservationTime must exist.")
+        .isISO8601({strict: true, strictSeparator: true}).withMessage("reservationTime must be a datetime")
+        .custom(value => {
+            const iso8601Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/;
+
+            return iso8601Regex.test(value)
+        }).withMessage('timestamp must be in strict ISO8601 format with time and UTC (e.g. 2025-06-19T21:05:24.278Z)'),
+
+    body("duration")
+        .exists().withMessage("duration is Missing")
+        .toInt()
+        .isInt({min: 1, max: 5}).withMessage("duration must be an integer and greater than 1 hour but less than 5 hours"),
+
+    body("tableId")
+        .exists().withMessage("tableId is Missing")
+        .isString().withMessage("tableId must be a string")
+        .notEmpty().withMessage("tableId must not be empty")
+        .trim()
+]
+
+export { registerValidator, loginValidator, restaurantValidator, tableValidator, reservationValidator }
