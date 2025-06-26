@@ -46,7 +46,21 @@ const loginValidator = [
         .isEmail().withMessage("email's passed value is not an email"),
     body("password")
         .exists().withMessage("password is missing")
-        .isString().withMessage("password must be a string")
+        .isString().withMessage("password must be a string"),
+    body("role")
+        .exists().withMessage("role is Missing")
+        .isString().withMessage("role must be a string")
+        .notEmpty().withMessage("role must not be empty")
+        .trim()
+        .custom(value => {
+            const upperValue = value.toUpperCase()
+            if (upperValue === "OWNER" || upperValue === "CUSTOMER")
+                return true
+            else {
+                throw false
+            }
+        }).withMessage("role must be an owner or a customer")
+        .toUpperCase(),
 ]
 
 const restaurantValidator = [

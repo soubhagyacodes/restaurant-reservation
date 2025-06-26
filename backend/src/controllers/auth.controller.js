@@ -53,7 +53,8 @@ const loginController = async (request, response) => {
             }
 
             const comparePass = await comparePassword(data.password, foundUser.passwordHash)
-            if(comparePass){
+            const compareRole = data.role == foundUser.role ? true : false
+            if(comparePass && compareRole){
 
                 const { id, name, role, email} = foundUser
 
@@ -71,7 +72,7 @@ const loginController = async (request, response) => {
                 }).status(200).send({"msg": "Logged in."})
             }
 
-            return response.status(400).send({"msg": "wrong password"})
+            return response.status(400).send({"msg": "wrong password or role"})
         } 
         catch (e) {
             console.log(e)
