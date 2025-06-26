@@ -9,7 +9,7 @@ interface AuthFormProps {
 export default function AuthForm({name, desc, Form} : AuthFormProps) {
   return (
     <div>
-      <div className="font-[Ubuntu]">
+      <div className="font-[Ubuntu] mb-4">
           <h1 className="text-4xl font-bold mb-2">{name}</h1>
           <h3 className="text-gray-400 ">{desc}</h3>
       </div>

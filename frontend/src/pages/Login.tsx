@@ -9,7 +9,7 @@ export default function Login() {
     <div className='flex min-h-screen'>
       <div className='flex-3 min-h-screen flex flex-col'>
         <div className='heading'>
-          <p className='LOGO text-4xl font-[Satoshi] font-extrabold text-orange-400 m-6'>plated.</p>
+          <p className='LOGO text-4xl font-[Satoshi] font-extrabold text-orange-400 m-6 select-none'>plated.</p>
         </div>
 
         <div className='flex-1 flex flex-col justify-center items-center'>
