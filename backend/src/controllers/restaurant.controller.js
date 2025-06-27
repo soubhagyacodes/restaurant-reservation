@@ -24,7 +24,7 @@ async function createRestaurantHandler(request, response) {
 
     } catch (error) {
         console.log(error)
-        return response.status(500).send({ "msg": "Something went wrong while creating the restaurant" })
+        return response.status(500).send({ "msg": "Something went wrong while creating the Restaurant" })
     }
 }
 
@@ -35,7 +35,7 @@ async function getRestaurantByIDHandler(request, response) {
 
         if (restaurantFound) return response.status(200).send(restaurantFound)
 
-        return response.status(404).send({ "msg": "Restaurant not found" })
+        return response.status(404).send({ "msg": "Restaurant Not Found" })
     } catch (error) {
         console.log(error)
         return response.status(500).send({ "msg": "Something went wrong when finding the restaurant" })
@@ -53,7 +53,7 @@ async function restaurantsOfUserHandler(request, response) {
 
         if (restaurantsFound) return response.status(200).send(restaurantsFound)
 
-        return response.status(404).send({ "msg": "Restaurants not found" })
+        return response.status(404).send({ "msg": "Restaurants Not Found" })
     } catch (error) {
         console.log(error)
         return response.status(500).send({ "msg": "Something went wrong when finding the restaurants of the user" })
@@ -72,7 +72,7 @@ async function putRestaurantByIDHandler(request, response){
     const result = validationResult(request)
 
     if (!result.isEmpty()) {
-        return response.status(400).send({ "msg": "Invalid data", "violations": result.mapped() })
+        return response.status(400).send({ "msg": "Invalid Data", "violations": result.mapped() })
     }
 
     try {
@@ -93,11 +93,11 @@ async function deleteRestaurantByIDHandler(request, response){
                 id: request.params.id
             }
         })
-        return response.status(200).send({"msg": "deleted", "restaurant": deleted})
+        return response.status(200).send({"msg": "Successfully removed the Restaurant", "restaurant": deleted})
     } catch (error) {
         if(error.code === "P2025"){
 
-            return response.status(400).send({"msg": "restaurant Not Found"})
+            return response.status(400).send({"msg": "Restaurant Not Found"})
         }
         return response.status(500).send({"msg": "Something went wrong while deleting the restaurant"})
         

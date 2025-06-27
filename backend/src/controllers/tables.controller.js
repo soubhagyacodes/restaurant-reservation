@@ -11,10 +11,10 @@ async function addTableHandler(request, response) {
     try {
         const restaurantFound = await findRestaurant(request.params.id)
 
-        if (!restaurantFound) return response.status(400).send({ "msg": "Restaurant with given id not found." })
+        if (!restaurantFound) return response.status(400).send({ "msg": "Restaurant with given ID Not Found." })
     } catch (error) {
         console.log(error)
-        return response.status(500).send({ "msg": "something went wrong when finding the restaurant." })
+        return response.status(500).send({ "msg": "Something went wrong when finding the restaurant." })
     }
 
     const data = matchedData(request)
@@ -22,7 +22,7 @@ async function addTableHandler(request, response) {
     const result = validationResult(request)
 
     if (!result.isEmpty()) {
-        return response.status(400).send({ "msg": "Invalid data", "violations": result.mapped() })
+        return response.status(400).send({ "msg": "Invalid Data", "violations": result.mapped() })
     }
 
     try {
@@ -36,10 +36,10 @@ async function addTableHandler(request, response) {
             }
         })
 
-        if (tableExists) return response.status(400).send({ "msg": "this table number already exists in the restaurant." })
+        if (tableExists) return response.status(400).send({ "msg": "This Table Number already exists in the Restaurant." })
     } catch (error) {
         console.log(error)
-        return response.status(500).send({ "msg": "something went wrong when verifying that the table number doesn't exist." })
+        return response.status(500).send({ "msg": "Something went wrong when verifying that the table number doesn't exist." })
     }
     /*
         tableNumber Int (should be unique)
@@ -62,10 +62,10 @@ async function getTableHandler(request, response) {
     try {
         const restaurantFound = await findRestaurant(request.params.id)
 
-        if (!restaurantFound) return response.status(400).send({ "msg": "Restaurant with given id not found." })
+        if (!restaurantFound) return response.status(400).send({ "msg": "Restaurant with given ID not found." })
     } catch (error) {
         console.log(error)
-        return response.status(500).send({ "msg": "something went wrong when finding the restaurant." })
+        return response.status(500).send({ "msg": "Something went wrong when finding the restaurant." })
     }
 
     try {
@@ -83,10 +83,10 @@ async function deleteTableHandler(request, response) {
     try {
         const foundTable = await findTable(request.params.id)
 
-        if(!foundTable) return response.status(400).send({"msg": "table not found."})
+        if(!foundTable) return response.status(400).send({"msg": "Table Not Found."})
     } catch (error) {
         console.log(error)
-        return response.status(500).send({ "msg": "something went wrong when finding the table before deleting." })
+        return response.status(500).send({ "msg": "Something went wrong when finding the table before deleting." })
 
     }
 
@@ -96,7 +96,7 @@ async function deleteTableHandler(request, response) {
         return response.status(200).send(deletedTable)
     } catch (error) {
         console.log(error)
-        return response.status(500).send({ "msg": "something went wrong when deleting the table." })
+        return response.status(500).send({ "msg": "Something went wrong when deleting the table." })
 
     }
     

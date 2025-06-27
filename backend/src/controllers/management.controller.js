@@ -35,13 +35,13 @@ async function listReservationHandler(request, response) {
             })
             return response.status(200).send(reservationList)
         }
-        return response.status(400).send({"msg": "No Tables in the restaurant"})
+        return response.status(400).send({"msg": "No Tables in the Restaurant"})
     } catch (error) {
         console.log(error)
         if(error.code == 'P2025'){
-            return response.status(404).send({"msg": "RestaurantID does not exist"})
+            return response.status(404).send({"msg": "RestaurantID does not Exist"})
         }
-        return response.status(500).send({"msg": "Something went wrong when finding tables in the restaurant. DB Problem"})
+        return response.status(500).send({"msg": "Something Went Wrong when finding tables in the restaurant. DB Problem"})
     }
 }
 

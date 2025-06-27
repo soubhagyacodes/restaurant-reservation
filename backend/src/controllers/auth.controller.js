@@ -6,7 +6,7 @@ const registerController = async (request, response) => {
         const result = validationResult(request)
 
         if(!result.isEmpty()){
-            return response.status(400).send({"status": "Data not accurate", "violations": result.mapped()})
+            return response.status(400).send({"msg": "Data not Accurate", "violations": result.mapped()})
         }
 
         const rawData = matchedData(request);
@@ -24,10 +24,10 @@ const registerController = async (request, response) => {
        
         const user = await registerUser(rawData)
         console.log(`User Registered ${JSON.stringify(user)}`)
-        return response.status(200).send({"status": "Registered", "user": user})
+        return response.status(200).send({"msg": "Registered", "user": user})
     } 
     catch (e) {
-        return response.status(500).send({"status": "Something's Wrong", "error": e.message})
+        return response.status(500).send({"msg": "Something's Wrong", "error": e.message})
     }
 
 }
@@ -36,7 +36,7 @@ const loginController = async (request, response) => {
         const result = validationResult(request)
 
         if(!result.isEmpty()){
-            return response.status(400).send({"status": "Data not accurate", "violations": result.mapped()})
+            return response.status(400).send({"msg": "Data not Accurate", "violations": result.mapped()})
         }
 
         try {
@@ -49,7 +49,7 @@ const loginController = async (request, response) => {
             })
 
             if(!foundUser){
-                return response.status(404).send({"msg": "email not registered"})
+                return response.status(404).send({"msg": "Email not Registered"})
             }
 
             const comparePass = await comparePassword(data.password, foundUser.passwordHash)
@@ -69,14 +69,14 @@ const loginController = async (request, response) => {
                 return response.cookie("jwt", token, {
                     maxAge: (60*60*5) * 1000, 
                     httpOnly: true,
-                }).status(200).send({"msg": "Logged in."})
+                }).status(200).send({"msg": "Logged In."})
             }
 
-            return response.status(400).send({"msg": "wrong password or role"})
+            return response.status(400).send({"msg": "Wrong Password or Wrong Role"})
         } 
         catch (e) {
             console.log(e)
-            return response.status(500).send({"msg": "something went wrong. try again."})
+            return response.status(500).send({"msg": "Something Went Wrong. Try Again."})
         }
 }
 

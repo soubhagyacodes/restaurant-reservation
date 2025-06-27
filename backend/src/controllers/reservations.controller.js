@@ -22,11 +22,11 @@ async function createReservationHandler(request, response){
             }
         })
 
-        if(!tableFound) return response.status(400).send({"msg": "Requested Table doesn't exist"})
-        if(!tableFound.isAvailable) return response.status(400).send({"msg": "Requested table is not available."})
+        if(!tableFound) return response.status(400).send({"msg": "Requested Table doesn't Exist"})
+        if(!tableFound.isAvailable) return response.status(400).send({"msg": "Requested Table is not Available."})
     } catch (error) {
         console.log(error)
-        return response.status(400).send({"msg": "Something went wrong when finding the requested table."})
+        return response.status(400).send({"msg": "Something Went Wrong when finding the requested table."})
     }
 
     // CONDITIONNNN: Check if any previous reservations exist on that table at the requested duration. ---------
@@ -84,11 +84,11 @@ async function viewReservationHandler(request, response){
 async function deleteReservationHandler(request, response){
     try {
         const deleted = await deleteReservation(request.params.id)
-        return response.status(200).send({"msg": "deleted", "reservation": deleted})
+        return response.status(200).send({"msg": "Successfully Removed the Reservation", "reservation": deleted})
     } catch (error) {
         if(error.code === "P2025"){
 
-            return response.status(400).send({"msg": "reservation Not Found"})
+            return response.status(400).send({"msg": "Reservation Not Found"})
         }
         return response.status(500).send({"msg": "Something went wrong while deleting the reservation"})
         
@@ -112,7 +112,7 @@ async function tableReservationsHandler(request, response){
             return response.status(200).send(reservations.reservationHistory)
         }
         
-        return response.status(400).send({"msg": "table does not exist with the tableID"})
+        return response.status(400).send({"msg": "Table does not exist with the TableID"})
 
     } catch (error) {
         console.log(error)
