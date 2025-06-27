@@ -19,7 +19,7 @@ const registerController = async (request, response) => {
         */ 
 
    try {
-       const existing = await prisma.user.findFirst({ where: {AND:[{ email: rawData.email }, {NOT: {passwordHash: null}}]} });
+       const existing = await prisma.user.findFirst({ where: {AND:[{ email: rawData.email }, {NOT: {passwordHash: null}}, {role: rawData.role}]} });
        if (existing) throw new Error("UserExists");
        
         const user = await registerUser(rawData)
@@ -27,6 +27,9 @@ const registerController = async (request, response) => {
         return response.status(200).send({"msg": "Registered", "user": user})
     } 
     catch (e) {
+        if(e.message === "UserExists"){
+            return response.status(400).send({"msg": "The User Already Exists."})
+        }
         return response.status(500).send({"msg": "Something's Wrong", "error": e.message})
     }
 
@@ -44,12 +47,19 @@ const loginController = async (request, response) => {
 
             const foundUser = await prisma.user.findUnique({
                 where: {
-                    email: data.email
+                    email_role: {
+                        email: data.email,
+                        role: data.role
+                    }
                 }
             })
 
             if(!foundUser){
                 return response.status(404).send({"msg": "Email not Registered"})
+            }
+
+            if(!foundUser.passwordHash){
+                return response.status(404).send({"msg": "You registered as a Google user. Continue with Google."})
             }
 
             const comparePass = await comparePassword(data.password, foundUser.passwordHash)

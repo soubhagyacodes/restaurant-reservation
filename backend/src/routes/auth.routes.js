@@ -18,7 +18,7 @@ router.get("/google/callback", passport.authenticate("google", { session: false}
     return response.cookie("jwt", token, {
         maxAge: (60*60*5) * 1000,
         httpOnly: true,
-    }).redirect("/api/auth/me")
+    }).redirect(`${process.env.CLIENT_URL_DEV}/login`)
 })
 
 

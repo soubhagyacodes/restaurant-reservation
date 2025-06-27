@@ -1,3 +1,4 @@
+import { raw } from "@prisma/client/runtime/library";
 import prisma from "../../prisma/client.js";
 import bcrypt from "bcryptjs";
 import 'dotenv/config'
@@ -13,7 +14,12 @@ async function registerUser(rawDataObject){
     }
 
     const newUser = await prisma.user.upsert({
-        where: {email: rawDataObject.email},
+        where: {
+            email_role: {
+                email: rawDataObject.email,
+                role: rawDataObject.role
+            }
+        },
         update: {passwordHash: hashedPass},
         create: data
     })

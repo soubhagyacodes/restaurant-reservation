@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy({
     try {
         const found = await prisma.user.findUnique({
             where: {
-                email: profile.emails[0].value
+                id: profile.id
             }
         })
         

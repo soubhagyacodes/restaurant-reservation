@@ -9,7 +9,10 @@ function jwtVerify(request, response, next){
         if(decoded){
             const found = await prisma.user.findUnique({
                 where: {
-                    email: decoded.email
+                    email_role: {
+                        email: decoded.email,
+                        role: decoded.role
+                    }
                 }
             })
 
