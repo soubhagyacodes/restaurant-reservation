@@ -21,8 +21,8 @@ export default function Login() {
 
       </div>
 
-      <div className='flex-4 min-h-screen p-2'>
-        <div className='bg-purple-300 h-full rounded-4xl'></div>
+      <div className='flex-4 min-h-screen p-1'>
+        <div className="bg-[radial-gradient(ellipse_at_center,_#fcd34d,_#fb7185,_#a855f7)] opacity-95 h-full rounded-3xl"></div>
       </div>
     </div>
   </>

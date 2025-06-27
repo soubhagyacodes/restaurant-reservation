@@ -19,6 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import axios, { AxiosError } from "axios"
+import { toast } from "sonner"
+import { useState } from "react"
+import { Loader2Icon } from "lucide-react"
+import { useNavigate } from "react-router"
 
 const formSchema = z.object({
   email: z.string().nonempty("Email cannot be empty").email("Not a valid email").trim(),
@@ -31,6 +36,9 @@ const formSchema = z.object({
 type formType = z.infer<typeof formSchema>
 
 export default function SignInForm() {
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,8 +47,36 @@ export default function SignInForm() {
     },
   })
 
-  function onSubmit(values: formType) {
-    console.log(values.email)
+  // hari@gmail.com
+  // ssSS12@#
+  // OWNER
+
+  async function onSubmit(values: formType) {
+    setLoading(true)
+    const loadingID = toast.loading("Loading...", {description: "Please wait while we serve"})
+    try {
+      const response = await axios.post('http://localhost:3000/api/auth/login', values, {withCredentials: true})
+      setLoading(false)
+      navigate("/PROTECTED_ROUTE")
+      toast.success(response.data.msg, {description: "Welcome to plated.", id: loadingID})
+    } catch (error) {
+      setLoading(false)
+      if (error instanceof AxiosError) {
+        if (error.response) {
+        toast.error("Something Went Wrong", {description: error.response.data.msg, id: loadingID})
+        console.log("Error when signing in, response received: ", error.response);
+      } else if (error.request) {
+        toast.error("Something Went Wrong", {description: "Please try again later.", id: loadingID})
+        console.log("Error when signing in, server didn't respond: ", error)
+      } else {
+        toast.error("Something Went Wrong", {description: "Please try again.", id: loadingID})
+        console.log("Error when signing in, problem in the request setup: ", error)
+      }
+      } else {
+        console.log(error)
+        toast.error("Something Went Wrong", {description: "Please try again after some time", id: loadingID})
+      }
+    }
   }
 
   return (
@@ -55,7 +91,7 @@ export default function SignInForm() {
               <FormControl>
                 <Input placeholder="Email..." {...field} className="w-85 h-10" />
               </FormControl>
-              <FormMessage className="text-xs"/>
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
@@ -67,7 +103,7 @@ export default function SignInForm() {
               <FormControl>
                 <Input type="password" placeholder="Password..." {...field} className="w-85 h-10" />
               </FormControl>
-              <FormMessage className="text-xs"/>
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
@@ -98,7 +134,8 @@ export default function SignInForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-orange-500/90 hover:bg-orange-500/80 h-10 mt-3">Sign In</Button>
+        {loading ? <Button type="submit" className="w-full bg-orange-500/80 h-10 mt-3" disabled={true}><Loader2Icon />Please wait</Button>
+        : <Button type="submit" className="w-full bg-orange-500/90 hover:bg-orange-500/80 h-10 mt-3">Sign In</Button>}
       </form>
     </Form>
   )

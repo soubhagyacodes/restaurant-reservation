@@ -20,8 +20,8 @@ export default function SignUp() {
 
       </div>
 
-      <div className='flex-4 p-2 sticky top-0 h-screen'>
-        <div className='bg-purple-300 rounded-4xl h-full'></div>
+      <div className='flex-4 p-1 sticky top-0 h-screen'>
+        <div className='bg-[radial-gradient(ellipse_at_center,_#fcd34d,_#fb7185,_#a855f7)] opacity-95 rounded-4xl h-full'></div>
       </div>
     </div>
   </>

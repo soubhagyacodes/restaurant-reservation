@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import { Link } from "react-router"
 
 interface AuthFormProps {
   name: string
@@ -21,9 +22,12 @@ export default function AuthForm({name, desc, Form} : AuthFormProps) {
         <hr className="flex-1 "/>
       </div>
 
-      <Button className="w-full h-11 font-[Ubuntu]" variant="outline">
-        <img src="../../Google.png" alt="Google" className="size-5 mr-1"/>  Continue with Google
-      </Button>
+      <Link to={"http://localhost:3000/api/auth/google"}>
+        <Button className="w-full h-11 font-[Rubik]" variant="outline">
+          <img src="../../Google.png" alt="Google" className="size-5 mr-1"/>  Continue with Google
+        </Button>
+      </Link>
+      <p className="font-[Rubik] text-xs mt-3 text-center">(Google Authentication only for customers)</p>
     </div>
   )
 }
