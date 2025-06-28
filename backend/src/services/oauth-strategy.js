@@ -21,8 +21,17 @@ passport.use(new GoogleStrategy({
             return done(null, {id, name, email, role})
         }
 
-        const newUser = await prisma.user.create({
-            data: {
+        const newUser = await prisma.user.upsert({
+            where: {
+                email_role: {
+                    email: profile.emails[0].value,
+                    role : "CUSTOMER"
+                }
+            },
+            update: {
+                id: profile.id
+            },
+            create: {
                 id: profile.id,
                 name: profile.displayName,
                 email: profile.emails[0].value,
