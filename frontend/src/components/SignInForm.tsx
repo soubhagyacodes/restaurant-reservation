@@ -64,7 +64,7 @@ export default function SignInForm() {
         const userResponse = await fetchUser()
         setUser(userResponse.data)
       if (userResponse.data.role === "CUSTOMER") {
-        navigate("/dashboard")
+        navigate("/restaurants")
       }
 
       else if (userResponse.data.role === "OWNER") {
