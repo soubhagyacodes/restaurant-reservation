@@ -41,8 +41,8 @@ export type loginFormType = z.infer<typeof formSchema>
 
 export default function SignInForm() {
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
-  const {setUser} = useAuth()
+  const [btnloading, setbtnLoading] = useState(false)
+  const { setUser, setLoading } = useAuth()
 
   const form = useForm<loginFormType>({
     resolver: zodResolver(formSchema),
@@ -54,26 +54,37 @@ export default function SignInForm() {
   })
 
   async function onSubmit(values: loginFormType) {
-    setLoading(true)
-    const loadingID = toast.loading("Loading...", { description: "Please wait while we serve" })
+    setbtnLoading(true)
+    const loadingID = toast.loading("Loading...", { description: "Please wait while we log you in." })
     try {
       const response = await loginUser(values)
 
-      // Updating user
       try {
+        setLoading(true)
         const userResponse = await fetchUser()
         setUser(userResponse.data)
-      }catch (error) {
-        handleFetchUserError(error)
+      if (userResponse.data.role === "CUSTOMER") {
+        navigate("/dashboard")
       }
 
-      navigate("/dashboard")
+      else if (userResponse.data.role === "OWNER") {
+        navigate("/ownerhome")
+      }
       toast.success(response.data.msg, { description: "Welcome to plated.", id: loadingID })
+
+      } catch (error) {
+        handleFetchUserError(error)
+      }
+      finally{
+        setLoading(false)
+      }
+
+
     } catch (error) {
-        handleLoginError(error, loadingID)
+      handleLoginError(error, loadingID)
     }
-    finally{
-      setLoading(false)
+    finally {
+      setbtnLoading(false)
     }
   }
 
@@ -147,7 +158,7 @@ export default function SignInForm() {
             </FormItem>
           )}
         />
-        {loading ? <Button type="submit" className="w-full bg-orange-500/80 h-10" disabled={true}><Loader2Icon />Please wait</Button>
+        {btnloading ? <Button type="submit" className="w-full bg-orange-500/80 h-10" disabled={true}><Loader2Icon />Please wait</Button>
           : <Button type="submit" className="w-full bg-orange-500/90 hover:bg-orange-500/80 h-10">Sign In</Button>}
       </form>
     </Form>

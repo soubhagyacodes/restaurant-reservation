@@ -12,17 +12,14 @@ type User = {
 
 export default function AuthProvider({ children }: { children: JSX.Element }) {
     const [user, setUser] = useState<User | null>(null)
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        setLoading(true)
         axios.get("http://localhost:3000/api/auth/me", { withCredentials: true })
             .then((response) => {
-                setLoading(false)
                 setUser(response.data)
             })
             .catch((error) => {
-                setLoading(false)
                 if(error instanceof AxiosError){
                     if(error.response){
                         console.log("Unauthorized User: ", error)
@@ -37,6 +34,9 @@ export default function AuthProvider({ children }: { children: JSX.Element }) {
                 else{
                     console.log("Something went wrong when finding the user details: ", error)
                 }
+            })
+            .finally(() => {
+                setLoading(false)
             })
     }, [])
 

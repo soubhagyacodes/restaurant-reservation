@@ -60,7 +60,7 @@ export default function SignUpForm() {
 
   async function onSubmit(values: registerformType) {
     setLoading(true)
-    const loadingID = toast.loading("Loading...", {description: "Please wait while we serve"})
+    const loadingID = toast.loading("Loading...", {description: "Please wait while we register you."})
     try {
       const response = await registerUser(values)
       navigate("/login")
