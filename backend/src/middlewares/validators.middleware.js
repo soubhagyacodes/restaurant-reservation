@@ -61,6 +61,12 @@ const loginValidator = [
             }
         }).withMessage("role must be an owner or a customer")
         .toUpperCase(),
+    body("persist")
+        .exists().withMessage("persist is Missing")
+        .custom(value => {
+            if(value === true || value === false) return true
+            else return false
+        }).withMessage("persist must be boolean") 
 ]
 
 const restaurantValidator = [

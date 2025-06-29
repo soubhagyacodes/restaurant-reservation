@@ -27,7 +27,7 @@ app.use(passport.initialize());
 // AUTHENTICATION
 app.use("/api/auth", authRoutes)
 
-// ------- Protected Routes -----------
+// ----------------------------------- PROTECTED -----------------------------------------------------------------
 app.use(jwtVerify)
 
 // Restaurant
@@ -46,11 +46,13 @@ app.use("/api", managementRoutes)
 
 
 app.get("/api/auth/me", (req, res) => {
-    const { name, email } = req.user
+    const { id, name, email, role } = req.user
 
     return res.status(200).send({
+        id,
         name,
-        email
+        email,
+        role
     })
 })
 
