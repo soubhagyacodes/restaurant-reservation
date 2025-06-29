@@ -22,9 +22,9 @@ import {
 } from "@/components/ui/select"
 import { useState } from "react"
 import { toast } from "sonner"
-import axios, { AxiosError } from "axios"
 import { Loader2Icon } from "lucide-react"
 import { useNavigate } from "react-router"
+import { handleRegisterError, registerUser } from "@/api/auth"
 
 // eslint-disable-next-line no-useless-escape
 const passwordRegex = /^(?=(?:.*[a-z]){2,})(?=(?:.*[A-Z]){2,})(?=(?:.*\d){2,})(?=(?:.*[!@#$%^&*()_+;':"\\|,.<>\/?`\-=\[\]{}]){1,}).{8,}$/
@@ -42,13 +42,13 @@ const formSchema = z.object({
     path: ["confirmPassword"]
   });
 
-type formType = z.infer<typeof formSchema>
+export type registerformType = z.infer<typeof formSchema>
 
 export default function SignUpForm() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
 
-  const form = useForm<formType>({
+  const form = useForm<registerformType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -58,31 +58,17 @@ export default function SignUpForm() {
     },
   })
 
-  async function onSubmit(values: formType) {
+  async function onSubmit(values: registerformType) {
     setLoading(true)
     const loadingID = toast.loading("Loading...", {description: "Please wait while we serve"})
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/register', values, {withCredentials: true})
-      setLoading(false)
+      const response = await registerUser(values)
       navigate("/login")
-      toast.success(response.data.msg, {description: "Welcome to plated.", id: loadingID})
+      toast.success(response.data.msg, {description: "You can now sign in with those credentials.", id: loadingID})
     } catch (error) {
+      handleRegisterError(error, loadingID)
+    }finally {
       setLoading(false)
-      if (error instanceof AxiosError) {
-        if (error.response) {
-        toast.error("Something Went Wrong", {description: error.response.data.msg, id: loadingID})
-        console.log("Error when signing up, response received: ", error.response);
-      } else if (error.request) {
-        toast.error("Something Went Wrong", {description: "Please try again later.", id: loadingID})
-        console.log("Error when signing up, server didn't respond: ", error)
-      } else {
-        toast.error("Something Went Wrong", {description: "Please try again.", id: loadingID})
-        console.log("Error when signing up, problem in the request setup: ", error)
-      }
-      } else {
-        console.log(error)
-        toast.error("Something Went Wrong", {description: "Please try again after some time", id: loadingID})
-      }
     }
   }
 

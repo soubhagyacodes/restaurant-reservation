@@ -19,63 +19,61 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import axios, { AxiosError } from "axios"
 import { toast } from "sonner"
 import { useState } from "react"
 import { Loader2Icon } from "lucide-react"
 import { useNavigate } from "react-router"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@radix-ui/react-label"
+import useAuth from "@/hooks/useAuth"
+import { fetchUser, handleFetchUserError, handleLoginError, loginUser } from "@/api/auth"
 
 const formSchema = z.object({
   email: z.string().nonempty("Email cannot be empty").email("Not a valid email").trim(),
   password: z.string().nonempty("Password cannot be empty"),
   role: z.enum(["CUSTOMER", "OWNER"], {
     message: "Should be something out of customer or owner"
-  })
+  }),
+  persist: z.boolean()
 })
 
-type formType = z.infer<typeof formSchema>
+export type loginFormType = z.infer<typeof formSchema>
 
 export default function SignInForm() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  
-  const form = useForm<formType>({
+  const {setUser} = useAuth()
+
+  const form = useForm<loginFormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
+      persist: false
     },
   })
 
-  // hari@gmail.com
-  // ssSS12@#
-  // OWNER
-
-  async function onSubmit(values: formType) {
+  async function onSubmit(values: loginFormType) {
     setLoading(true)
-    const loadingID = toast.loading("Loading...", {description: "Please wait while we serve"})
+    const loadingID = toast.loading("Loading...", { description: "Please wait while we serve" })
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', values, {withCredentials: true})
-      setLoading(false)
-      navigate("/PROTECTED_ROUTE")
-      toast.success(response.data.msg, {description: "Welcome to plated.", id: loadingID})
+      const response = await loginUser(values)
+
+      // Updating user
+      try {
+        const userResponse = await fetchUser()
+        setUser(userResponse.data)
+      }catch (error) {
+        handleFetchUserError(error)
+      }
+
+      navigate("/dashboard")
+      toast.success(response.data.msg, { description: "Welcome to plated.", id: loadingID })
     } catch (error) {
+        handleLoginError(error, loadingID)
+    }
+    finally{
       setLoading(false)
-      if (error instanceof AxiosError) {
-        if (error.response) {
-        toast.error("Something Went Wrong", {description: error.response.data.msg, id: loadingID})
-        console.log("Error when signing in, response received: ", error.response);
-      } else if (error.request) {
-        toast.error("Something Went Wrong", {description: "Please try again later.", id: loadingID})
-        console.log("Error when signing in, server didn't respond: ", error)
-      } else {
-        toast.error("Something Went Wrong", {description: "Please try again.", id: loadingID})
-        console.log("Error when signing in, problem in the request setup: ", error)
-      }
-      } else {
-        console.log(error)
-        toast.error("Something Went Wrong", {description: "Please try again after some time", id: loadingID})
-      }
     }
   }
 
@@ -134,8 +132,23 @@ export default function SignInForm() {
             </FormItem>
           )}
         />
-        {loading ? <Button type="submit" className="w-full bg-orange-500/80 h-10 mt-3" disabled={true}><Loader2Icon />Please wait</Button>
-        : <Button type="submit" className="w-full bg-orange-500/90 hover:bg-orange-500/80 h-10 mt-3">Sign In</Button>}
+        <FormField
+          control={form.control}
+          name="persist"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <div className="flex items-center gap-2 mt-3">
+                  <Checkbox id="persist" checked={field.value} onCheckedChange={field.onChange} className="border-1 border-gray-400/70 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500" />
+                  <Label htmlFor="persist" className="text-[13px] mt-[2px]">Keep me logged in for 7 days</Label>
+                </div>
+              </FormControl>
+              <FormMessage className="text-xs" />
+            </FormItem>
+          )}
+        />
+        {loading ? <Button type="submit" className="w-full bg-orange-500/80 h-10" disabled={true}><Loader2Icon />Please wait</Button>
+          : <Button type="submit" className="w-full bg-orange-500/90 hover:bg-orange-500/80 h-10">Sign In</Button>}
       </form>
     </Form>
   )
