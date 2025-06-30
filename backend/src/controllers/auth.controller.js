@@ -88,7 +88,7 @@ const loginController = async (request, response) => {
             }).status(200).send({ "msg": "Logged In." })        
         }
 
-        return response.status(400).send({ "msg": "Wrong Password or Wrong Role" })
+        return response.status(400).send({ "msg": "Wrong Password" })
     }
     catch (e) {
         console.log(e)

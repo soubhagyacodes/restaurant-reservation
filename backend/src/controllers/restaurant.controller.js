@@ -105,4 +105,26 @@ async function deleteRestaurantByIDHandler(request, response){
     
 }
 
-export { createRestaurantHandler, getRestaurantByIDHandler, restaurantsOfUserHandler, putRestaurantByIDHandler, deleteRestaurantByIDHandler }
+async function getAllRestaurantHandler(request, response){
+    try {
+        const restaurants = await prisma.restaurant.findMany({
+            where:{
+            },
+            include: {
+                tables: true
+            },
+            orderBy: {
+                tables: {
+                    _count: 'desc'
+                }
+            }
+        })
+        return response.status(200).send(restaurants)
+    } catch (error) {
+        console.log(error)
+        return response.status(500).send({"msg": "Something went wrong while getting all the restaurants"})   
+    }
+    
+}
+
+export { createRestaurantHandler, getRestaurantByIDHandler, restaurantsOfUserHandler, putRestaurantByIDHandler, deleteRestaurantByIDHandler, getAllRestaurantHandler }
