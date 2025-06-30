@@ -1,13 +1,12 @@
-import useAuth from "@/hooks/useAuth"
-import { Link, Outlet, useLocation } from "react-router"
-import Footer from "./Footer"
+import useAuth from '@/hooks/useAuth'
+import { Link, useLocation } from 'react-router'
 
-export default function CustomerLayout() {
+export default function CustomerNav() {
     const {user} = useAuth()
     const {pathname} = useLocation()
-    return (
-        <>
-        <div className=" h-24 grid grid-cols-3 items-center border-b-1 border-gray-200 shadow-sm font-[Rubik]">
+
+  return (
+       <div className=" h-24 grid grid-cols-3 items-center border-b-1 border-gray-200 shadow-sm font-[Rubik]">
             <div className="px-7">
                 <p className='LOGO text-4xl font-[Satoshi] font-extrabold text-orange-400 select-none'>plated.</p>
             </div>
@@ -23,8 +22,5 @@ export default function CustomerLayout() {
                 <p className="font-medium">{user?.name}</p>
             </div>
         </div>
-        <Outlet />
-        <Footer />
-        </>
-    )
+  )
 }

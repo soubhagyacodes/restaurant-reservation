@@ -14,5 +14,5 @@ createRoot(document.getElementById('root')!).render(
     </AuthProvider>
       <Toaster expand={true} position='top-center' richColors={true} visibleToasts={2}/>
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 )

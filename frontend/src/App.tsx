@@ -9,7 +9,8 @@ import CustomerProtected from "./components/CustomerProtected"
 import OwnerProtected from "./components/OwnerProtected"
 import MyReservations from "./pages/MyReservations"
 import CustomerProfile from "./pages/CustomerProfile"
-import CustomerLayout from "./components/CustomerLayout"
+import CustomerLayout from "./pages/CustomerLayout"
+
 
 function App() {
 
