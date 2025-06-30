@@ -151,7 +151,7 @@ export default function SignUpForm() {
             </FormItem>
           )}
         />
-        {loading ? <Button type="submit" className="w-full bg-orange-500/80 h-10 mt-3" disabled={true}><Loader2Icon />Please wait</Button>
+        {loading ? <Button type="submit" className="w-full bg-orange-500/80 h-10 mt-3" disabled={true}><Loader2Icon className="animate-spin"/>Please wait</Button>
         : <Button type="submit" className="w-full bg-orange-500/90 hover:bg-orange-500/80 h-10 mt-3">Sign Up</Button>}
       </form>
     </Form>

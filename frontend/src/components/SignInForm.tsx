@@ -158,7 +158,7 @@ export default function SignInForm() {
             </FormItem>
           )}
         />
-        {btnloading ? <Button type="submit" className="w-full bg-orange-500/80 h-10" disabled={true}><Loader2Icon />Please wait</Button>
+        {btnloading ? <Button type="submit" className="w-full bg-orange-500/80 h-10" disabled={true}><Loader2Icon className="animate-spin" />Please wait</Button>
           : <Button type="submit" className="w-full bg-orange-500/90 hover:bg-orange-500/80 h-10">Sign In</Button>}
       </form>
     </Form>

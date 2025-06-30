@@ -24,8 +24,8 @@ export default function CustomerProtected({ children }: { children: JSX.Element 
     }, [user, loading])
 
     if (loading) {
-        return <div className='text-4xl font-[Rubik] flex min-h-screen items-center justify-center gap-3'>
-            <Loader2Icon className='animate-spin size-8' /> <p>Loading...</p>
+        return <div className='text-3xl font-[Ubuntu] flex min-h-screen items-center justify-center gap-3'>
+            <Loader2Icon className='animate-spin size-7' /> <p>Loading...</p>
         </div>
     }
 
