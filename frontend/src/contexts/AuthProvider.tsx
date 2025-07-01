@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react"
 import type { JSX } from "react/jsx-runtime";
 import AuthContext from "./Authcontext";
+import { toast } from "sonner";
 
 type User = { 
     name: string, 
@@ -25,6 +26,7 @@ export default function AuthProvider({ children }: { children: JSX.Element }) {
                         console.log("Unauthorized User: ", error)
                     }
                     else if(error.request){
+                        toast.error("Something went wrong", {description: "Try Again Later."})
                         console.log("Error while fetching the user details from the server (server didn't respond): ", error)
                     }
                     else{

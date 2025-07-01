@@ -28,26 +28,52 @@ type restaurantType = {
     tables: tableType[]
 }
 
+// State in search query
+
 export default function Restaurants() {
     const [searchFilter, setSearchFilter] = useState("")
     const [searchValue, setSearchValue] = useState("")
     const [loading, setLoading] = useState(true)
     const [restaurants, setRestaurants] = useState<restaurantType[]>([])
+    const [faultyFetch, setfaultyFetch] = useState<boolean>(false)
+    const [filter2, setFilter2] = useState<string>("all")
 
     useEffect(() => {
-        console.log("useeffect runs")
         axios.get("http://localhost:3000/api/restaurants", { withCredentials: true })
             .then((response) => {
                 setRestaurants(response.data)
             })
             .catch((error) => {
-                console.log(error)
+                console.log("Error while fetching the restaurants data: ", error)
+                setfaultyFetch(true)
             })
             .finally(() => {
                 setLoading(false)
             })
 
     }, [])
+
+    function getFilteredRestaurants(): restaurantType[]{
+        let filtered = [...restaurants]
+
+        if(searchValue.trim() != ""){
+            if(searchFilter == "name"){
+                filtered = filtered.filter((restaurant) => restaurant.name.toLowerCase().includes(searchValue.toLowerCase().trim()))
+            }
+            else if(searchFilter == "location"){
+                filtered = filtered.filter((restaurant) => restaurant.location.toLowerCase().includes(searchValue.toLowerCase().trim()))
+            }
+        }
+
+        if(filter2 != "all"){
+            const threshold = parseInt(filter2);
+            filtered = filtered.filter((restaurant) => restaurant.tables.length >= threshold)
+        }
+
+        return filtered
+    }   
+    
+    const filteredRestaurants = getFilteredRestaurants()
 
     return (
         <div className=" font-[Rubik] p-15">
@@ -58,8 +84,10 @@ export default function Restaurants() {
                 <div className="flex items-center gap-2">
                     {/* <Filter className="text-gray-400" /> */}
                     <Select onValueChange={(value) => { setSearchFilter(value) }}>
-                        <SelectTrigger className="!h-13 w-35 border-2 !rounded-r-none !text-black">
-                            <Filter className="size-5 text-gray-400"/><SelectValue placeholder="Filter" />
+                        <SelectTrigger className="!h-13 w-44 border-2 !rounded-r-none !text-black">
+                            <div className="flex gap-3">
+                                <Filter className="size-5 text-gray-400"/><SelectValue placeholder="Filter" />
+                            </div>
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
@@ -80,52 +108,54 @@ export default function Restaurants() {
 
                     <div>
                         <p className="text-sm mb-4 font-light">Number of Tables</p>
-                        <RadioGroup>
+                        <RadioGroup defaultValue="all" onValueChange={(value) => setFilter2(value)}>
                             <div className="flex items-center gap-3">
                                 <RadioGroupItem value="all" id="r1" />
                                 <Label htmlFor="r1" className="font-normal text-xs">All</Label>
                             </div>
                             <div className="flex items-center gap-3">
-                                <RadioGroupItem value=">2" id="r12" />
-                                <Label htmlFor="r12" className="font-normal text-xs">{">2"}</Label>
+                                <RadioGroupItem value="2" id="r12" />
+                                <Label htmlFor="r12" className="font-normal text-xs">{">= 2"}</Label>
                             </div>
                             <div className="flex items-center gap-3">
-                                <RadioGroupItem value=">10" id="r2" />
-                                <Label htmlFor="r2" className="font-normal text-xs">{">10"}</Label>
+                                <RadioGroupItem value="10" id="r2" />
+                                <Label htmlFor="r2" className="font-normal text-xs">{">= 10"}</Label>
                             </div>
                             <div className="flex items-center gap-3">
-                                <RadioGroupItem value=">15" id="r3" />
-                                <Label htmlFor="r3" className="font-normal text-xs">{">15"}</Label>
+                                <RadioGroupItem value="15" id="r3" />
+                                <Label htmlFor="r3" className="font-normal text-xs">{">= 15"}</Label>
                             </div>
                         </RadioGroup>
                     </div>
                 </div>
-                <div className="col-span-7 flex-col flex gap-4">
+                <div className="col-span-7 flex-col flex gap-4 min-h-70">
                     {loading ? (
                         <div className="min-h-80 flex items-center justify-center font-[Ubuntu] text-md gap-2">
                             <Loader2Icon className="animate-spin" /> Loading...
                         </div>
                     ) : 
-                    (searchValue.trim() === "" ? 
-                        restaurants.map((restaurant) => <RestaurantBox key={restaurant.id} restaurant={restaurant}/>) 
-                        : 
-                        (searchFilter == "name" ? (<div className="flex flex-col gap-4">
-                            {(restaurants.filter((restaurant) => restaurant.name.toLowerCase().includes(searchValue.trim().toLowerCase()))).length == 0 ? <div className="flex items-center justify-center h-80  text-3xl gap-3">< UtensilsCrossed className="size-10"/> Nothing Found</div> : null}
-                            {(restaurants.filter((restaurant) => restaurant.name.toLowerCase().includes(searchValue.trim().toLowerCase()))).map((restaurant) => <RestaurantBox key={restaurant.id} restaurant={restaurant}/>)}
-                        </div>) : (
-                            searchFilter == "location" ? (
-                                <div className="flex flex-col gap-4">
-                            {(restaurants.filter((restaurant) => restaurant.location.toLowerCase().includes(searchValue.trim().toLowerCase()))).length == 0 ? <div className="flex items-center justify-center h-80  text-3xl gap-3">< UtensilsCrossed className="size-10"/> Nothing Found</div> : null}
-                            {(restaurants.filter((restaurant) => restaurant.location.toLowerCase().includes(searchValue.trim().toLowerCase()))).map((restaurant) => <RestaurantBox key={restaurant.id} restaurant={restaurant}/>)}
-                                </div>
-                            ) : 
-                            <div className="flex items-center justify-center h-80  text-2xl gap-3">
-                                Select a <b>Search Filter Criteria</b> from the dropdown first before searching
-                            </div> 
-                        )))
+                    faultyFetch ? (
+                        <div className="flex items-center justify-center h-80  text-2xl gap-3">
+                            Something Went Wrong. Please Refresh or Try Again Later.
+                        </div> 
+                    ) : (filteredRestaurants.length == 0 ? (
+                        <div className="flex items-center justify-center h-80  text-3xl gap-3">< UtensilsCrossed className="size-10"/> Nothing Found</div>
+                    ) :
+                    searchValue != "" && searchFilter == "" ? (
+                        <div className="flex items-center justify-center h-80  text-2xl gap-3">
+                            Select a <b>Search Filter Criteria</b> from the dropdown first before searching
+                        </div> 
+                    ) : (
+                        filteredRestaurants.map((restaurant) => <RestaurantBox key={restaurant.id} restaurant={restaurant}/>)
+                    )
+                    )
                     }
                 </div>
             </div>
         </div>
+
+        // <div className="flex items-center justify-center h-80  text-2xl gap-3">Add commentMore actions
+        //                         Select a <b>Search Filter Criteria</b> from the dropdown first before searching
+        //                     </div> 
     )
 }
