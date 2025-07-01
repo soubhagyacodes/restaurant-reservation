@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/radio-group"
 import RestaurantBox from "@/components/RestaurantBox";
 import axios from "axios";
+import { useSearchParams } from "react-router";
 
 
 type tableType = {
@@ -28,15 +29,20 @@ type restaurantType = {
     tables: tableType[]
 }
 
-// State in search query
 
 export default function Restaurants() {
-    const [searchFilter, setSearchFilter] = useState("")
-    const [searchValue, setSearchValue] = useState("")
+    // const [searchFilter, setSearchFilter] = useState("")
+    // const [searchValue, setSearchValue] = useState("")
     const [loading, setLoading] = useState(true)
     const [restaurants, setRestaurants] = useState<restaurantType[]>([])
     const [faultyFetch, setfaultyFetch] = useState<boolean>(false)
-    const [filter2, setFilter2] = useState<string>("all")
+    // const [filter2, setFilter2] = useState<string>("all")
+    const [searchParams, setSearchparams] = useSearchParams()
+
+    const queryParams = Object.fromEntries(searchParams.entries())
+    const searchValue = queryParams.searchvalue ? queryParams.searchvalue : ""
+    const searchFilter = queryParams.searchFilter ? queryParams.searchFilter : ""
+    const filter2 = queryParams.filter2 ? queryParams.filter2 : "all"
 
     useEffect(() => {
         axios.get("http://localhost:3000/api/restaurants", { withCredentials: true })
@@ -83,7 +89,7 @@ export default function Restaurants() {
             <div className="flex items-center mt-8">
                 <div className="flex items-center gap-2">
                     {/* <Filter className="text-gray-400" /> */}
-                    <Select onValueChange={(value) => { setSearchFilter(value) }}>
+                    <Select onValueChange={(value) => {setSearchparams({...queryParams, searchFilter: value}) }} value={queryParams.searchFilter}>
                         <SelectTrigger className="!h-13 w-44 border-2 !rounded-r-none !text-black">
                             <div className="flex gap-3">
                                 <Filter className="size-5 text-gray-400"/><SelectValue placeholder="Filter" />
@@ -99,7 +105,7 @@ export default function Restaurants() {
                     </Select>
                 </div>
 
-                <Input className="h-13 !rounded-l-none" placeholder="Search..." onChange={(e) => { setSearchValue(e.target.value) }} value={searchValue} />
+                <Input className="h-13 !rounded-l-none" placeholder="Search..." onChange={(e) => { setSearchparams({...queryParams, searchvalue: e.target.value}) }} value={queryParams.searchvalue} />
             </div>
 
             <div className="mt-8 grid grid-cols-8 gap-8">
@@ -108,7 +114,7 @@ export default function Restaurants() {
 
                     <div>
                         <p className="text-sm mb-4 font-light">Number of Tables</p>
-                        <RadioGroup defaultValue="all" onValueChange={(value) => setFilter2(value)}>
+                        <RadioGroup defaultValue="all" onValueChange={(value) => setSearchparams({...queryParams, filter2: value})} value={queryParams.filter2}>
                             <div className="flex items-center gap-3">
                                 <RadioGroupItem value="all" id="r1" />
                                 <Label htmlFor="r1" className="font-normal text-xs">All</Label>
