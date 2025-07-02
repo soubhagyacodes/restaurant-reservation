@@ -12,7 +12,7 @@ import axios from "axios";
 import { useSearchParams } from "react-router";
 
 
-type tableType = {
+export type tableType = {
     id: string,
     tableNumber: number,
     seats: number,
@@ -20,7 +20,7 @@ type tableType = {
     restaurantId: string
 }
 
-type restaurantType = {
+export type restaurantType = {
     id: string,
     name: string,
     location: string,
@@ -47,6 +47,7 @@ export default function Restaurants() {
     useEffect(() => {
         axios.get("http://localhost:3000/api/restaurants", { withCredentials: true })
             .then((response) => {
+                console.log(response.data)
                 setRestaurants(response.data)
             })
             .catch((error) => {
@@ -83,8 +84,8 @@ export default function Restaurants() {
 
     return (
         <div className=" font-[Rubik] p-15">
-            <p className="font-[Ubuntu] text-5xl font-bold">Restaurants</p>
-            <p className="font-[Ubuntu] text-2xl text-orange-400  mt-2">Book your table now</p>
+            <p className="text-6xl font-extrabold font-[Satoshi]">Restaurants</p>
+            <p className="font-bold font-[Satoshi] text-2xl text-orange-400  mt-2">Book your table now</p>
 
             <div className="flex items-center mt-8">
                 <div className="flex items-center gap-2">
@@ -105,7 +106,7 @@ export default function Restaurants() {
                     </Select>
                 </div>
 
-                <Input className="h-13 !rounded-l-none" placeholder="Search..." onChange={(e) => { setSearchparams({...queryParams, searchvalue: e.target.value}) }} value={queryParams.searchvalue} />
+                <Input className="h-13 !rounded-l-none" placeholder="Search..." onChange={(e) => { setSearchparams({...queryParams, searchvalue: e.target.value}, {replace: true}) }} value={queryParams.searchvalue} />
             </div>
 
             <div className="mt-8 grid grid-cols-8 gap-8">
@@ -160,8 +161,5 @@ export default function Restaurants() {
             </div>
         </div>
 
-        // <div className="flex items-center justify-center h-80  text-2xl gap-3">Add commentMore actions
-        //                         Select a <b>Search Filter Criteria</b> from the dropdown first before searching
-        //                     </div> 
     )
 }

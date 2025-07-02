@@ -10,6 +10,7 @@ import OwnerProtected from "./components/OwnerProtected"
 import MyReservations from "./pages/MyReservations"
 import CustomerProfile from "./pages/CustomerProfile"
 import CustomerLayout from "./pages/CustomerLayout"
+import SingleRestaurant from "./pages/SingleRestaurant"
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
 
       <Route element={<CustomerLayout />}>
         <Route path="/restaurants" element={<CustomerProtected><Restaurants /></CustomerProtected>} />
+        <Route path="/restaurants/:id" element={<CustomerProtected><SingleRestaurant /></CustomerProtected>} />
         <Route path="/my-reservations" element={<CustomerProtected><MyReservations /></CustomerProtected>} />
         <Route path="/cust-profile" element={<CustomerProtected><CustomerProfile /></CustomerProtected>} />
       </Route>

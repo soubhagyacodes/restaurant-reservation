@@ -10,7 +10,7 @@ export default function Footer() {
     <>
       <div className="h-90 bg-orange-100 p-15 grid grid-cols-12 text-gray-600/90 font-[Rubik]">
         <div className="col-span-7">
-          <p className='LOGO text-6xl font-[Satoshi] font-extrabold text-orange-400 select-none'>plated.</p>
+          <p className='LOGO text-5xl font-[Satoshi] font-extrabold text-orange-400 select-none'>plated.</p>
           <p className="mt-4 text-xl font-medium">For the ones who serve and the ones who savor.</p>
           <div className="flex items-center mt-9 gap-3">
             <a href={linkedinLink} target="_blank"><Linkedin className="text-black size-8 hover:fill-black hover:cursor-pointer" /></a>
