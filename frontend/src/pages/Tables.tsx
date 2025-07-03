@@ -46,6 +46,7 @@ export default function Tables() {
 			.finally(() => {
 				setLoading(false)
 			})
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	function getCounts() {
@@ -54,7 +55,7 @@ export default function Tables() {
 		let availableCount = 0
 		tables?.forEach((table) => {
 			if (table._count.reservationHistory > 0) {
-				reservationCount++;
+				reservationCount = reservationCount + table._count.reservationHistory;
 			}
 
 			if (table.isAvailable) {
@@ -89,7 +90,7 @@ export default function Tables() {
 						<div className="grid grid-cols-9 mt-5">
 							<div className="flex flex-col justify-between col-span-6 pt-15 pb-7 bg-orange-100/70 min-h-120 border-2 border-orange-300 rounded-md shadow-xs shadow-orange-400">
 								<div className="grid grid-cols-3 auto-rows-min gap-y-20 items-center place-items-center">
-									{restaurant?.tables.map(({ isAvailable, seats, tableNumber, _count: { reservationHistory } }) => <TableWithChairs isAvailable={isAvailable} seatCount={seats} tableNumber={tableNumber} pastReservations={reservationHistory} />)}
+									{restaurant?.tables.map((table) => <TableWithChairs table={table} big={false}/>)}
 								</div>
 
 								<div className="flex items-center justify-center mt-20">

@@ -3,11 +3,23 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import { useNavigate } from "react-router";
+
+type tableType = {
+	id: string,
+	tableNumber: number,
+	seats: number,
+	isAvailable: boolean,
+	restaurantId: string,
+	_count: { reservationHistory: number }
+}
 
 
-const TableWithChairs = ({ tableNumber, seatCount, isAvailable, pastReservations }: { tableNumber: number, seatCount: number, isAvailable: boolean, pastReservations: number }) => {
+const TableWithChairs = ({ table, big }: {table: tableType, big: boolean}) => {
+  const {id: tableId, seats: seatCount, isAvailable, tableNumber, _count: {reservationHistory: pastReservations}, restaurantId} = table
+  const navigate = useNavigate()
   const angleStep = 360 / seatCount;
-  const radius = 70;
+  const radius = big ? 220 : 70;
 
   const colors = {
     available: {
@@ -26,16 +38,14 @@ const TableWithChairs = ({ tableNumber, seatCount, isAvailable, pastReservations
   const {tableBG, tableBorder, chairBG} = isAvailable ? colors.available : colors.notAvailable
 
   return (
-    <HoverCard openDelay={100} closeDelay={100}>
+    <HoverCard openDelay={100} closeDelay={100} open={big ? false : undefined}>
       <HoverCardTrigger>
-        <div className={"relative w-50 h-30 " + (isAvailable ? "cursor-pointer" : "cursor-not-allowed")} >
+        <div className={"relative select-none " + (big ? "w-130 h-130 " : "w-50 h-30 ") + (isAvailable && !big ? "cursor-pointer" : (big ? "" : "cursor-not-allowed"))} onClick={isAvailable && !big ? () => navigate(`/restaurants/${restaurantId}/tables/${tableId}`) : () => {}}>
           {/* Table */}
-          {/* <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-green-600 border-4 border-green-300 text-white rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2"> */}
-          <div className={"absolute top-1/2 left-1/2 w-24 h-24 border-4 text-white rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 " +  `${tableBorder} ${tableBG}`}>
+          <div className={"absolute top-1/2 left-1/2 border-4 text-white rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 " +  `${tableBorder} ${tableBG} ` + (big ? "w-80 h-80" : "w-24 h-24")}>
             <div className="flex flex-col items-center justify-center">
-              {/* <span className="text-xl">Table</span> */}
-              <span className="font-bold text-2xl">#{tableNumber}</span>
-              <span className=" text-xs">Seats - {seatCount}</span>
+              <span className={"font-bold " + (big ? "text-5xl" : "text-2xl")}>#{tableNumber}</span>
+              <span className={(big ? "text-xl mt-1" : "text-xs")}>Seats - {seatCount}</span>
             </div>
           </div>
           {/* Chairs */}
@@ -46,11 +56,10 @@ const TableWithChairs = ({ tableNumber, seatCount, isAvailable, pastReservations
             return (
               <div
                 key={i}
-                className={"absolute w-7 h-7 rounded-full" + ` ${chairBG}`}
-                // className="absolute w-7 h-7 bg-green-400 rounded-full"
+                className={"absolute rounded-full " + `${chairBG} ` + (big ? "w-13 h-13" : "w-7 h-7")}
                 style={{
-                  top: `calc(50% + ${y}px - 0.8rem)`,
-                  left: `calc(50% + ${x}px - 1rem)`,
+                  top: `calc(50% + ${y}px - ${big ? "1.6rem" : "0.8rem"})`,
+                  left: `calc(50% + ${x}px - ${big ? "1.7rem" : "1rem"})`,
                 }}
               ></div>
             );

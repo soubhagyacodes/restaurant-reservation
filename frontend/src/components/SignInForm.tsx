@@ -63,19 +63,19 @@ export default function SignInForm() {
         setLoading(true)
         const userResponse = await fetchUser()
         setUser(userResponse.data)
-      if (userResponse.data.role === "CUSTOMER") {
-        navigate("/restaurants")
-      }
+        if (userResponse.data.role === "CUSTOMER") {
+          navigate("/restaurants")
+        }
 
-      else if (userResponse.data.role === "OWNER") {
-        navigate("/ownerhome")
-      }
-      toast.success(response.data.msg, { description: "Welcome to plated.", id: loadingID })
+        else if (userResponse.data.role === "OWNER") {
+          navigate("/ownerhome")
+        }
+        toast.success(response.data.msg, { description: "Welcome to plated.", id: loadingID })
 
       } catch (error) {
         handleFetchUserError(error)
       }
-      finally{
+      finally {
         setLoading(false)
       }
 

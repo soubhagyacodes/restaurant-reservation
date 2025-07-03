@@ -48,6 +48,7 @@ export default function SingleRestaurant() {
          .finally(() => {
             setLoading(false)
          })
+   // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
    function getCounts(){
@@ -56,7 +57,7 @@ export default function SingleRestaurant() {
       let availableCount = 0
       tables?.forEach((table) => {
          if(table._count.reservationHistory > 0){
-            reservationCount++;
+            reservationCount = reservationCount + table._count.reservationHistory;
          }
 
          if(table.isAvailable){
