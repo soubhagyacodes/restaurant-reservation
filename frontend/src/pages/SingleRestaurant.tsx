@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import { Bug, History, Loader, MapPin, RectangleHorizontalIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
 type tableType = {
     id: string,
@@ -13,7 +13,7 @@ type tableType = {
     _count: {reservationHistory: number}
 }
 
-type restaurantType = {
+export type restaurantType = {
     id: string,
     name: string,
     location: string,
@@ -29,6 +29,7 @@ type restaurantType = {
 }
 
 export default function SingleRestaurant() {
+   const navigate = useNavigate()
    const {id} = useParams()
    const [restaurant, setRestaurant] = useState<restaurantType | null>(null)
    const [faultyFetch, setFaultyFetch] = useState<boolean>(false)
@@ -91,7 +92,7 @@ export default function SingleRestaurant() {
                      <p className='flex gap-1'><History />{pastreservationCount}{pastreservationCount > 0 ? "+" : ""} Past Reservations</p>
                   </div>
                   <div className='font-[Satoshi] text-xl'>
-                     {restaurant?._count.tables && restaurant?._count.tables > 0 ? <Button className="cursor-pointer bg-orange-400 hover:bg-amber-500/95 w-80 h-14 text-md font-bold">Reserve a Table</Button> : <div className='text-orange-400 p-6 font-bold text-3xl'>Reservations Starting Soon</div>}
+                     {restaurant?._count.tables && restaurant?._count.tables > 0 ? <Button className="cursor-pointer bg-orange-400 hover:bg-amber-500/95 w-80 h-14 text-md font-bold" onClick={() => {navigate(`/restaurants/${restaurant.id}/tables`); window.scrollTo({ top: 0, behavior: "smooth" })}}>Reserve a Table</Button> : <div className='text-orange-400 p-6 font-bold text-3xl'>Reservations Starting Soon</div>}
                   </div>
                </div>
                <div className='flex flex-col gap-12'>
