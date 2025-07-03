@@ -23,6 +23,18 @@ async function findRestaurant(id) {
     const restaurantFound = await prisma.restaurant.findUnique({
         where: {
             id
+        },
+        include: {
+            _count: true,
+            owner: true,
+            tables: {
+                include: {
+                    _count: true,
+                },
+                orderBy: {
+                    tableNumber: "asc"
+                }
+            }
         }
     })
 

@@ -121,7 +121,7 @@ const reservationValidator = [
 //   duration        Int
 
 //   userId  String
-//   tableId String 
+//   tableId String
 
     body("reservationTime")
         .exists().withMessage("reservationTime must exist.")

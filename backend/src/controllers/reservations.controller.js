@@ -40,7 +40,8 @@ async function createReservationHandler(request, response){
                 (${newEndDate.toISOString()}::timestamp <= "reservationTime")
                 OR
                 (${newStartDate.toISOString()}::timestamp >= ("reservationTime" + INTERVAL '1 hour' * "duration"))
-            );`
+            )
+            AND NOT "status" = 'CANCELLED';`
         if(overlaps.length > 0){
             return response.status(400).send({"msg": "Reservations already exist on the requested table in the requested timeslot."})
         }
