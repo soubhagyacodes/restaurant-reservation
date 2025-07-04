@@ -10,14 +10,17 @@ import tableRoutes from './src/routes/tables.routes.js'
 import reservationRoutes from './src/routes/reservations.routes.js'
 import managementRoutes from './src/routes/management.routes.js'
 import cors from 'cors'
+import { sendMail } from "./src/services/mail.service.js";
+import { mailValidator } from "./src/middlewares/validators.middleware.js";
+import { matchedData, validationResult } from "express-validator";
 
 
 export const app = express()
 const port = process.env.PORT
 
 app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true,              
+    origin: 'http://localhost:5173',
+    credentials: true,
 }))
 
 app.use(express.json())
@@ -54,6 +57,25 @@ app.get("/api/auth/me", (req, res) => {
         email,
         role
     })
+})
+
+app.post("/mail", mailValidator ,  async (req, res) => {
+    const { email } = req.user
+
+    const data = matchedData(req)
+    const result = validationResult(req)
+
+    if(result.array().length != 0){
+        return res.status(400).send({"msg": "Data Not Accurate", "violations": result.array()})
+    }
+
+    try {
+        await sendMail(email, data)
+        return res.status(200).send({"msg": "Mail Sent Successfully"})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send({"msg": "Something went wrong when sending the mail"})
+    }
 })
 
 

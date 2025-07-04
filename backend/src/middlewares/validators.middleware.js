@@ -161,4 +161,41 @@ const statusValidator = [
         .toUpperCase()
 ]
 
-export { registerValidator, loginValidator, restaurantValidator, tableValidator, reservationValidator, statusValidator }
+const mailValidator = [
+    body("tableNumber")
+        .exists().withMessage("tableNumber is Missing")
+        .toInt()
+        .isInt({min: 0}).withMessage("tableNumber must be an integer and greater than 0"),
+    body("seats")
+        .exists().withMessage("seats is Missing")
+        .toInt()
+        .isInt({min: 1}).withMessage("seats must be an integer and should be at least 1"),
+    body("restaurantName")
+        .exists().withMessage("name is Missing")
+        .isString().withMessage("name must be a string")
+        .notEmpty().withMessage("name must not be empty")
+        .isLength({ max: 40 })
+        .trim(),
+    body("restaurantLocation")
+        .exists().withMessage("location is Missing")
+        .isString().withMessage("location must be a string")
+        .notEmpty().withMessage("location must not be empty")
+        .isLength({ max: 160 })
+        .trim(),
+    body("reservationDate")
+        .exists().withMessage("reservationDate is Missing")
+        .isString().withMessage("reservationDate must be a string")
+        .notEmpty().withMessage("reservationDate must not be empty")
+        .trim(),
+    body("reservationTime")
+        .exists().withMessage("reservationTime is Missing")
+        .isString().withMessage("reservationTime must be a string")
+        .notEmpty().withMessage("reservationTime must not be empty")
+        .trim(),
+    body("reservationDuration")
+        .exists().withMessage("reservationDuration is Missing")
+        .toInt()
+        .isInt({min: 1, max: 5}).withMessage("reservationDuration must be an integer and greater than 1 hour but less than 5 hours"),
+]
+
+export { registerValidator, loginValidator, restaurantValidator, tableValidator, reservationValidator, statusValidator, mailValidator }
