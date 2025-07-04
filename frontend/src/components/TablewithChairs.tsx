@@ -69,7 +69,7 @@ const TableWithChairs = ({ table, big }: {table: tableType, big: boolean}) => {
       <HoverCardContent side="top" asChild={true}>
           <div className={"!w-50 font-[Rubik] rounded-xl p-5 border-1 " + (isAvailable ? "border-green-400" : "border-red-300")}>
             <p className="text-xl font-bold">Table #{tableNumber}</p>
-            {isAvailable ? <p className="text-sm font-bold text-green-500">Available</p> : <p className="text-sm font-bold text-red-500">Reserved</p>}
+            {isAvailable ? <p className="text-sm font-bold text-green-500">Available</p> : <p className="text-sm font-bold text-red-500">Not In Service</p>}
             <div className="text-sm">
               <div className="flex justify-between"><p>Seats: </p>{seatCount}</div>
               <div className="flex justify-between"><p>Past Reservations: </p>{pastReservations}</div>

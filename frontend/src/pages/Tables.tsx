@@ -4,7 +4,7 @@ import { ArrowUp, Circle, History, Loader, MapPin, RectangleHorizontalIcon } fro
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
 
-type tableType = {
+export type tableType = {
 	id: string,
 	tableNumber: number,
 	seats: number,
@@ -109,8 +109,8 @@ export default function Tables() {
 								<div className="mt-10">
 									<p className="text-[26px] font-[Satoshi] font-bold">Availability</p>
 									<div className="mt-2 text-xl font-[Satoshi]">
-										<p className="font-extrabold text-green-500">Available: {availableCount}</p>
-										<p className="font-extrabold text-red-500">Reserved: {restaurant?._count.tables && restaurant?._count.tables - availableCount}</p>
+										<p className="font-extrabold text-green-500 grid grid-cols-6"><span className="col-span-3">Available:</span> <span className="col-span-3">{availableCount}</span></p>
+										<p className="font-extrabold text-red-500 grid grid-cols-6"><span className="col-span-3">Not In Service:</span> <span className="col-span-3">{restaurant?._count.tables && restaurant?._count.tables - availableCount}</span></p>
 									</div>
 								</div>
 
@@ -120,7 +120,7 @@ export default function Tables() {
 										<Circle className="text-green-400 fill-green-400 size-4"/> Available
 									</div>
 									<div className="flex gap-2 items-center">
-										<Circle className="text-red-400 fill-red-400 size-4"/> Reserved
+										<Circle className="text-red-400 fill-red-400 size-4"/> Not In Service
 									</div>
 								</div>
 							</div>

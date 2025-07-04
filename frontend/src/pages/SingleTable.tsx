@@ -6,6 +6,7 @@ import TableWithChairs from "@/components/TablewithChairs"
 import { Loader } from "lucide-react"
 import ReservationForm from "@/components/ReservationForm"
 
+
 export default function SingleTable() {
 	const { restaurantId, tableId } = useParams()
 	const [restaurant, setRestaurant] = useState<restaurantType | null>(null)
@@ -59,7 +60,7 @@ export default function SingleTable() {
 
 						<div className="bg-orange-100 col-span-7 p-10 rounded-3xl">
 							<p className="text-3xl font-bold font-[Satoshi]">Order Overview</p>
-							<div className="h-px bg-orange-300 mt-4" />
+							<div className="h-1 bg-orange-400/70 rounded-xl mt-4" />
 
 							<div className="mt-8 text-xl mb-10">
 								{[
@@ -89,7 +90,7 @@ export default function SingleTable() {
 								</div>))}
 							</div>
 							<p className="text-xl font-semibold font-[Satoshi] mb-4">Enter Specifications:</p>
-							<ReservationForm tableId={table.id} />
+							<ReservationForm table={table} restaurant={restaurant} />
 						</div>
 					</div>
 				)

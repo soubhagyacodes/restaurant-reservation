@@ -115,7 +115,7 @@ export default function SingleRestaurant() {
                            return (
                               <div className='grid grid-cols-6 text-md'>
                                  <div className='col-span-1 text-xl'>Table <span className='font-bold ml-1'>#{table.tableNumber}</span></div>
-                                 <div className='col-span-1'>{table.isAvailable ? <span className='text-green-500 font-semibold'>Available</span> : <span className='text-red-500 font-semibold'>Reserved</span>}</div>
+                                 <div className='col-span-1'>{table.isAvailable ? <span className='text-green-500 font-semibold'>Available</span> : <span className='text-red-500 font-semibold'>Not In Service</span>}</div>
                               </div>
                            )
                         })}
