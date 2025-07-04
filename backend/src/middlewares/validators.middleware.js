@@ -64,9 +64,9 @@ const loginValidator = [
     body("persist")
         .exists().withMessage("persist is Missing")
         .custom(value => {
-            if(value === true || value === false) return true
+            if (value === true || value === false) return true
             else return false
-        }).withMessage("persist must be boolean") 
+        }).withMessage("persist must be boolean")
 ]
 
 const restaurantValidator = [
@@ -103,29 +103,29 @@ const tableValidator = [
     body("tableNumber")
         .exists().withMessage("tableNumber is Missing")
         .toInt()
-        .isInt({min: 0}).withMessage("tableNumber must be an integer and greater than 0"),
+        .isInt({ min: 0 }).withMessage("tableNumber must be an integer and greater than 0"),
     body("seats")
         .exists().withMessage("seats is Missing")
         .toInt()
-        .isInt({min: 1}).withMessage("seats must be an integer and should be at least 1"),
+        .isInt({ min: 1 }).withMessage("seats must be an integer and should be at least 1"),
     body("isAvailable")
         .exists().withMessage("isAvailable is Missing")
         .custom(value => {
-            if(value === true || value === false) return true
+            if (value === true || value === false) return true
             else return false
-        }).withMessage("isAvailable must be boolean") 
+        }).withMessage("isAvailable must be boolean")
 ]
 
 const reservationValidator = [
-//   reservationTime DateTime @default(now())
-//   duration        Int
+    //   reservationTime DateTime @default(now())
+    //   duration        Int
 
-//   userId  String
-//   tableId String
+    //   userId  String
+    //   tableId String
 
     body("reservationTime")
         .exists().withMessage("reservationTime must exist.")
-        .isISO8601({strict: true, strictSeparator: true}).withMessage("reservationTime must be a datetime")
+        .isISO8601({ strict: true, strictSeparator: true }).withMessage("reservationTime must be a datetime")
         .custom(value => {
             const iso8601Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/;
 
@@ -135,7 +135,7 @@ const reservationValidator = [
     body("duration")
         .exists().withMessage("duration is Missing")
         .toInt()
-        .isInt({min: 1, max: 5}).withMessage("duration must be an integer and greater than 1 hour but less than 5 hours"),
+        .isInt({ min: 1, max: 5 }).withMessage("duration must be an integer and greater than 1 hour but less than 5 hours"),
 
     body("tableId")
         .exists().withMessage("tableId is Missing")
@@ -165,11 +165,11 @@ const mailValidator = [
     body("tableNumber")
         .exists().withMessage("tableNumber is Missing")
         .toInt()
-        .isInt({min: 0}).withMessage("tableNumber must be an integer and greater than 0"),
+        .isInt({ min: 0 }).withMessage("tableNumber must be an integer and greater than 0"),
     body("seats")
         .exists().withMessage("seats is Missing")
         .toInt()
-        .isInt({min: 1}).withMessage("seats must be an integer and should be at least 1"),
+        .isInt({ min: 1 }).withMessage("seats must be an integer and should be at least 1"),
     body("restaurantName")
         .exists().withMessage("name is Missing")
         .isString().withMessage("name must be a string")
@@ -195,7 +195,13 @@ const mailValidator = [
     body("reservationDuration")
         .exists().withMessage("reservationDuration is Missing")
         .toInt()
-        .isInt({min: 1, max: 5}).withMessage("reservationDuration must be an integer and greater than 1 hour but less than 5 hours"),
+        .isInt({ min: 1, max: 5 }).withMessage("reservationDuration must be an integer and greater than 1 hour but less than 5 hours"),
+    body("username")
+        .exists().withMessage("username is Missing")
+        .isString().withMessage("username must be a string")
+        .notEmpty().withMessage("username must not be empty")
+        .trim(),
+
 ]
 
 export { registerValidator, loginValidator, restaurantValidator, tableValidator, reservationValidator, statusValidator, mailValidator }
