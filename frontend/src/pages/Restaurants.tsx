@@ -83,9 +83,9 @@ export default function Restaurants() {
     const filteredRestaurants = getFilteredRestaurants()
 
     return (
-        <div className=" font-[Rubik] p-15">
-            <p className="text-6xl font-extrabold font-[Satoshi]">Restaurants</p>
-            <p className="font-bold font-[Satoshi] text-2xl text-orange-400  mt-2">Book your table now</p>
+        <div className=" font-[Rubik] p-15 pt-35 bg-[url(../../landing.svg)] bg-repeat-x">
+            <p className="text-8xl font-extrabold font-[Satoshi] text-center">Restaurants</p>
+            <p className="font-bold font-[Satoshi] text-3xl text-orange-400  mt-2  text-center">Book your table now</p>
 
             <div className="flex items-center mt-8">
                 <div className="flex items-center gap-2">

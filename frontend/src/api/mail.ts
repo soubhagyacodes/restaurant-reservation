@@ -7,7 +7,8 @@ type mailDetailsType = {
    restaurantLocation: string | undefined,
    reservationDate: string,
    reservationTime: string,
-   reservationDuration: number
+   reservationDuration: number,
+   username: string | undefined
 }
 
 function sendMail(values: mailDetailsType) {

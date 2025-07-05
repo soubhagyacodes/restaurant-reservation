@@ -5,6 +5,14 @@ const createReservation = (values: { reservationTime: string, duration: number, 
    return axios.post("http://localhost:3000/api/reservations", values, { withCredentials: true })
 }
 
+const getUserReservations = () => {
+   return axios.get("http://localhost:3000/api/reservations", {withCredentials: true})
+}
+
+const cancelReservation = (id: string) => {
+   return axios.get(`http://localhost:3000/api/reservations/${id}`, {withCredentials: true})
+}
+
 const handleCreateReservationErrors = (error: unknown, loadingID: string | number) => {
    if (error instanceof AxiosError) {
       if (error.response) {
@@ -26,4 +34,24 @@ const handleCreateReservationErrors = (error: unknown, loadingID: string | numbe
       toast.error("Something Went Wrong.", { description: "Please try again Later.", id: loadingID })
    }
 }
-export { createReservation, handleCreateReservationErrors }
+
+const handleGetUserReservationsErrors = (error: unknown) => {
+   if (error instanceof AxiosError) {
+      if (error.response) {
+         console.log("Error while getting user reservations, response received: ", error.response.data.msg)
+      }
+      else if (error.request) {
+         console.log("Error while getting user reservations, request was sent but no response: ", error.request)
+      }
+      else {
+         console.log("Error while getting user reservations, request didn't setup: ", error)
+      }
+   }
+
+   else {
+      console.log("Unexpected error while getting user reservations: ", error)
+   }
+}
+
+
+export { createReservation, handleCreateReservationErrors, getUserReservations, handleGetUserReservationsErrors,cancelReservation }

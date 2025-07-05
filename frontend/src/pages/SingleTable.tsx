@@ -59,10 +59,10 @@ export default function SingleTable() {
 						</div>
 
 						<div className="bg-orange-100 col-span-7 p-10 rounded-3xl">
-							<p className="text-3xl font-bold font-[Satoshi]">Order Overview</p>
-							<div className="h-1 bg-orange-400/70 rounded-xl mt-4" />
+							<p className="text-3xl font-extrabold font-[Satoshi]">Order Overview</p>
+							<div className="h-[1.5px] bg-orange-400 rounded-xl mt-4" />
 
-							<div className="mt-8 text-xl mb-10">
+							<div className="mt-8 text-xl mb-10 space-y-1">
 								{[
 									{
 										id: 1,

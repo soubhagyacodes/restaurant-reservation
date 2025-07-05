@@ -25,6 +25,7 @@ import {
    DialogTitle,
 } from "@/components/ui/dialog"
 import { sendMail } from "@/api/mail";
+import useAuth from "@/hooks/useAuth";
 
 type tableType = {
    id: string,
@@ -72,6 +73,7 @@ export default function ReservationForm({ table, restaurant }: { table: tableTyp
    const [reservationDateTime, setReservationDateTime] = useState(new Date())
    const [reservedDuration, setReservedDuration] = useState(1)
    const [mailSent, setMailSent] = useState(false)
+   const { user } = useAuth()
 
    const form = useForm<reservationFormType>({
       resolver: zodResolver(formSchema),
@@ -99,7 +101,7 @@ export default function ReservationForm({ table, restaurant }: { table: tableTyp
          setDialogOpen(true)
          // navigate("/my-reservations")
          // scrollTo({ behavior: "smooth", top: 0 })
-         
+
          const reservationDateTime = new Date(reservationTime)
 
          try {
@@ -109,8 +111,13 @@ export default function ReservationForm({ table, restaurant }: { table: tableTyp
                restaurantName: restaurant?.name,
                restaurantLocation: restaurant?.location,
                reservationDate: reservationDateTime.toLocaleDateString(),
-               reservationTime: reservationDateTime.toLocaleTimeString(),
-               reservationDuration: parseInt(duration)
+               reservationTime: reservationDateTime.toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true,
+               }),
+               reservationDuration: parseInt(duration),
+               username: user?.name
             }
             await sendMail(values)
             setMailSent(true)
@@ -197,23 +204,27 @@ export default function ReservationForm({ table, restaurant }: { table: tableTyp
                      },
                      {
                         id: 3,
-                        title: "Reservation Date",
+                        title: "Reserved Date",
                         value: reservationDateTime.toLocaleDateString()
                      },
                      {
                         id: 4,
-                        title: "Reservation Time",
-                        value: reservationDateTime.toLocaleTimeString()
+                        title: "Reserved Time",
+                        value: reservationDateTime.toLocaleTimeString('en-US', {
+                           hour: '2-digit',
+                           minute: '2-digit',
+                           hour12: true,
+                        })
                      },
                      {
                         id: 5,
                         title: "Duration",
-                        value: `${reservedDuration} Hour${reservedDuration > 1 ? "s": ""}`
+                        value: `${reservedDuration} Hour${reservedDuration > 1 ? "s" : ""}`
                      },
 
                   ].map(({ id, title, value }) => <p key={id} className="grid grid-cols-5"><span className="col-span-2 font-medium ">{title}</span> <span className="col-span-3">{value}</span> </p>)
                   }
-               {mailSent ? <p className="text-sm text-orange-500 mt-4 flex items-center gap-2"><MailCheck />A Copy of this has been sent to your registered mail too.</p> : null}
+                  {mailSent ? <p className="text-sm text-orange-500 mt-6 flex items-center gap-2 font-semibold"><MailCheck />A COPY HAS BEEN SENT TO YOUR REGISTERED MAIL.</p> : null}
                </div>
             </DialogContent>
          </Dialog>

@@ -58,7 +58,7 @@ export default function RestaurantBox({ restaurant }: { restaurant: restaurantTy
             </div>
 
             <div className="flex items-center col-span-3 ml-auto gap-5">
-                {restaurant.tables.length!= 0 ? <Button className="cursor-pointer bg-orange-400 hover:bg-amber-500/95 w-50 h-11" onClick={() => {navigate(`/restaurants/${restaurant.id}/tables`); window.scrollTo({ top: 0, behavior: "smooth" })}}>Reserve a Table</Button> : (
+                {restaurant.tables.length!= 0 ? <Button className="cursor-pointer bg-orange-400 hover:bg-amber-500/95 w-63 h-12" onClick={() => {navigate(`/restaurants/${restaurant.id}/tables`); window.scrollTo({ top: 0, behavior: "smooth" })}}>Reserve a Table</Button> : (
                     <div className="text-orange-500 font-medium">
                         (Reservations Starting Soon)
                     </div>
