@@ -59,7 +59,7 @@ export default function ReservationBox({ reservation }: { reservation: reservati
 
    return (
       <div className={"font-[Rubik] border-1 border-t-0 overflow-hidden rounded-3xl " + (old ? "border-gray-500" : "border-orange-400")}>
-         {old ? <p className="text-center bg-gray-500 text-white font-bold text-xl">Old Reservation</p> : (reservationStatus == "PENDING" ? <p className="text-center bg-yellow-300 text-white font-bold text-md">Pending</p> : (reservationStatus == "CANCELLED" ? <p className="text-center bg-red-400 text-white font-bold text-md">Cancelled</p> : <p className="text-center bg-green-400 text-white font-bold text-md">Confirmed</p>))}
+         {old ? <p className="text-center bg-gray-500 text-white font-bold text-xl">Old Reservation</p> : (reservationStatus == "PENDING" ? <p className="text-center bg-yellow-400/90 text-white font-bold text-md">Pending</p> : (reservationStatus == "CANCELLED" ? <p className="text-center bg-red-400 text-white font-bold text-md">Cancelled</p> : <p className="text-center bg-green-400 text-white font-bold text-md">Confirmed</p>))}
       <div className="grid grid-cols-4">
          <div className="col-span-3 p-10">
             <p className="text-gray-500 text-sm">Reservation id: {reservation.id}</p>

@@ -36,7 +36,7 @@ export default function RestaurantBox({ restaurant }: { restaurant: restaurantTy
     const availableTables = getAvailableTables()
 
     return (
-        <div className="p-8 grid grid-cols-12 font-[Rubik] rounded-lg border-1 border-gray-300 hover:border-orange-500 group duration-150">
+        <div className="p-8 grid grid-cols-12 font-[Rubik] rounded-lg border-1 border-gray-400/65 hover:border-orange-500 group duration-150">
             <div className="col-span-9 cursor-pointer">
             <Link to={`/restaurants/${restaurant.id}`} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
                     <p className="text-3xl group-hover:text-orange-500 duration-150 font-medium">{restaurant.name}</p>
@@ -58,7 +58,7 @@ export default function RestaurantBox({ restaurant }: { restaurant: restaurantTy
             </div>
 
             <div className="flex items-center col-span-3 ml-auto gap-5">
-                {restaurant.tables.length!= 0 ? <Button className="cursor-pointer bg-orange-400 hover:bg-amber-500/95 w-63 h-12" onClick={() => {navigate(`/restaurants/${restaurant.id}/tables`); window.scrollTo({ top: 0, behavior: "smooth" })}}>Reserve a Table</Button> : (
+                {restaurant.tables.length!= 0 ? <Button className="cursor-pointer bg-orange-400 hover:bg-amber-500/95 w-63 h-12 text-md font-[Satoshi] font-extrabold" onClick={() => {navigate(`/restaurants/${restaurant.id}/tables`); window.scrollTo({ top: 0, behavior: "smooth" })}}>Reserve a Table</Button> : (
                     <div className="text-orange-500 font-medium">
                         (Reservations Starting Soon)
                     </div>
