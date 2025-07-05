@@ -39,6 +39,9 @@ export default function MyReservations() {
 				setLoading(false)
 			})
 	}, [])
+
+	const newReservations = reservations?.filter((reservation) => new Date(reservation.reservationTime) > new Date())
+	const oldReservations = reservations?.filter((reservation) => new Date(reservation.reservationTime) <= new Date())
 	
 	
 	return (
@@ -59,12 +62,24 @@ export default function MyReservations() {
 							Something Went Wrong, Please Refresh or Try Again Later.
 						</div>
 					) : (
-						<div className="min-h-120 space-y-8">
-							{reservations?.map((reservation) => <ReservationBox reservation={reservation}/>)}
+						oldReservations?.length == 0 && newReservations?.length == 0 ? (
+						<div className="h-100 flex items-center justify-center text-2xl gap-2">
+							No Reservations Yet.
 						</div>
+						) :
+						<>
+						<div className={"min-h-120 space-y-8 " + (oldReservations && oldReservations?.length > 0 ? "mb-20" : "")}>
+							{newReservations?.map((reservation) => <ReservationBox reservation={reservation} key={reservation.id}/>)}
+						</div>
+						{(oldReservations && oldReservations?.length > 0) && <div>
+							<p className="mb-12 text-4xl font-[Satoshi] font-extrabold">- Old Reservations</p>
+							<div className="space-y-8">{oldReservations?.map((reservation) => <ReservationBox reservation={reservation} key={reservation.id}/> )}</div>
+						</div>}
+						</>
 					)
 				}
 			</div>
 		</div>
 	)
 }
+//  + (oldReservations && oldReservations?.length > 0 ? "mb-10" : "")
