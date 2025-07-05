@@ -204,4 +204,5 @@ const mailValidator = [
 
 ]
 
+
 export { registerValidator, loginValidator, restaurantValidator, tableValidator, reservationValidator, statusValidator, mailValidator }

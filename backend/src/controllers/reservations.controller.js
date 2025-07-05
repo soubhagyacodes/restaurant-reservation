@@ -1,6 +1,6 @@
 import { matchedData, validationResult } from "express-validator"
 import prisma from "../../prisma/client.js"
-import { createReservation, deleteReservation, getUserReservations } from "../services/reservations.service.js"
+import { cancelReservation, createReservation, getUserReservations } from "../services/reservations.service.js"
 
 async function createReservationHandler(request, response){
 //   reservationTime DateTime @default(now())
@@ -71,7 +71,7 @@ async function createReservationHandler(request, response){
 
 async function viewReservationHandler(request, response){
     try {
-        const reservations = getUserReservations(request.user.id)
+        const reservations = await getUserReservations(request.user.id)
 
         return response.status(200).send(reservations)
     } catch (error) {
@@ -82,16 +82,16 @@ async function viewReservationHandler(request, response){
 }
 
 
-async function deleteReservationHandler(request, response){
+async function cancelReservationHandler(request, response){
     try {
-        const deleted = await deleteReservation(request.params.id)
-        return response.status(200).send({"msg": "Successfully Removed the Reservation", "reservation": deleted})
+        const cancelledReservation = await cancelReservation(request.params.id)
+        return response.status(200).send(cancelledReservation)
     } catch (error) {
         if(error.code === "P2025"){
 
             return response.status(400).send({"msg": "Reservation Not Found"})
         }
-        return response.status(500).send({"msg": "Something went wrong while deleting the reservation"})
+        return response.status(500).send({"msg": "Something went wrong while cancelling the reservation"})
         
     }
 }
@@ -123,4 +123,4 @@ async function tableReservationsHandler(request, response){
 }
 
 
-export {createReservationHandler, viewReservationHandler, deleteReservationHandler, tableReservationsHandler}
+export {createReservationHandler, viewReservationHandler, cancelReservationHandler, tableReservationsHandler}

@@ -48,6 +48,7 @@ async function sendMail(to, { username, tableNumber, seats, restaurantName, rest
 
    <br />
    <p>We look forward to serving you at <b>${restaurantName}</b>. <br/> If you did not make this reservation, please contact our support team immediately.</p>
+   <br />
    <p>- Team Plated</p>`
    })
 

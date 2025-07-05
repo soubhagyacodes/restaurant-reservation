@@ -9,28 +9,66 @@ async function createReservation(data){
 }
 
 async function getUserReservations(userid){
-    const reservations = await prisma.user.findMany({
+    // {
+    //     id: string,
+    //     reservationTime: string,
+    //     duration: number,
+    //     status: string,
+    //     tableReserved: {
+    //        id: string,
+    //        tableNumber: number,
+    //        seats: number,
+    //        ofRestaurant: {
+    //           id: string,
+    //           name: string,
+    //           location: string
+    //        }
+    //     }
+    // }
+    const reservations = await prisma.reservation.findMany({
         where: {
-            id: userid
+            userId: userid
         },
-
-        select: {
-            reservations: true
+        include: {
+            tableReserved: {
+                include: {
+                    ofRestaurant: {
+                        omit: {
+                            description: true,
+                            ownerId: true,
+                        }
+                    }
+                },
+                omit: {
+                    restaurantId: true,
+                    isAvailable: true,
+                }
+            }
+        },
+        omit: {
+            tableId: true,
+            userId: true,
+        },
+        orderBy: {
+            status: "asc"
         }
     })
 
-    return reservations[0].reservations
+    return reservations
 }
 
-async function deleteReservation(id){
-    const reservation = await prisma.reservation.delete({
+async function cancelReservation(id){
+    const reservation = await prisma.reservation.update({
         where: {
             id
-        }
+        },
+        data: {
+            status: "CANCELLED"
+        },
     })
 
     return reservation
 }
 
-export {createReservation, getUserReservations, deleteReservation}
+export {createReservation, getUserReservations, cancelReservation}
 
