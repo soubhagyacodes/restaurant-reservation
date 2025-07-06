@@ -4,7 +4,7 @@ import NotFound from "./pages/NotFound"
 import SignUp from "./pages/SignUp"
 import Restaurants from "./pages/Restaurants"
 import Home from "./pages/Home"
-import OwnerHome from "./pages/OwnerHome"
+import OwnerRestaurants from "./pages/OwnerRestaurants"
 import CustomerProtected from "./components/CustomerProtected"
 import OwnerProtected from "./components/OwnerProtected"
 import MyReservations from "./pages/MyReservations"
@@ -13,6 +13,8 @@ import CustomerLayout from "./pages/CustomerLayout"
 import SingleRestaurant from "./pages/SingleRestaurant"
 import Tables from "./pages/Tables"
 import SingleTable from "./pages/SingleTable"
+import OwnerLayout from "./pages/OwnerLayout"
+import OwnerSingleRestaurant from "./pages/OwnerSingleRestaurant"
 
 
 function App() {
@@ -28,13 +30,15 @@ function App() {
         <Route path="/restaurants/:id" element={<CustomerProtected><SingleRestaurant /></CustomerProtected>} />
         <Route path="/restaurants/:restaurantId/tables" element={<CustomerProtected><Tables /></CustomerProtected>} />
         <Route path="/restaurants/:restaurantId/tables/:tableId" element={<CustomerProtected><SingleTable /></CustomerProtected>} />
-
         <Route path="/my-reservations" element={<CustomerProtected><MyReservations /></CustomerProtected>} />
         <Route path="/cust-profile" element={<CustomerProtected><CustomerProfile /></CustomerProtected>} />
       </Route>
+        <Route path="*" element={<NotFound />} />
 
-      <Route path="/ownerhome" element={<OwnerProtected><OwnerHome /></OwnerProtected>} />
-      <Route path="*" element={<NotFound />} />
+      <Route element={<OwnerLayout />}>
+        <Route path="/ownerhome" element={<OwnerProtected><OwnerRestaurants /></OwnerProtected>} />
+        <Route path="/ownerrestaurant/:id" element={<OwnerProtected><OwnerSingleRestaurant /></OwnerProtected>} />
+      </Route>
    </Routes>
   )
 }
