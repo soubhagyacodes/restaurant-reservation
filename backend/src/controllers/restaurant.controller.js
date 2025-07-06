@@ -44,11 +44,24 @@ async function getRestaurantByIDHandler(request, response) {
 
 async function restaurantsOfUserHandler(request, response) {
     try {
-        const restaurantsFound = await prisma.user.findUnique({
+        const restaurantsFound = await prisma.restaurant.findMany({
             where: {
-                id: request.user.id
+                ownerId: request.user.id
             },
-            select: {owned: true}
+            include: {
+                _count: true,
+                tables: {
+                    select: {
+                        isAvailable: true,
+                        reservationHistory: {
+                            select: {
+                                reservationTime: true,
+                                status: true
+                            }
+                        }
+                    }
+                },
+            }
         })
 
         if (restaurantsFound) return response.status(200).send(restaurantsFound)

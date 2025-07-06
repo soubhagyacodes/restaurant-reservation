@@ -49,9 +49,11 @@ async function getUserReservations(userid){
             tableId: true,
             userId: true,
         },
-        orderBy: {
+        orderBy: [{
+            reservationTime: "asc"
+        }, {
             status: "asc"
-        }
+        }]
     })
 
     return reservations
