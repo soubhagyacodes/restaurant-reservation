@@ -13,6 +13,10 @@ const cancelReservation = (id: string) => {
    return axios.get(`http://localhost:3000/api/reservations/${id}`, {withCredentials: true})
 }
 
+const getTableReservations = (id: string | undefined) => {
+   return axios.get(`http://localhost:3000/api/reservations/table/${id}`, {withCredentials: true})
+}
+
 const handleCreateReservationErrors = (error: unknown, loadingID: string | number) => {
    if (error instanceof AxiosError) {
       if (error.response) {
@@ -54,4 +58,4 @@ const handleGetUserReservationsErrors = (error: unknown) => {
 }
 
 
-export { createReservation, handleCreateReservationErrors, getUserReservations, handleGetUserReservationsErrors,cancelReservation }
+export { createReservation, handleCreateReservationErrors, getUserReservations, handleGetUserReservationsErrors,cancelReservation, getTableReservations }

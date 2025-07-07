@@ -6,7 +6,7 @@ export default function CustomerNav() {
     const {pathname} = useLocation()
 
   return (
-       <div className="sticky top-0 bg-white h-24 grid grid-cols-3 items-center border-b-1 border-gray-200 shadow-sm font-[Rubik]">
+       <div className="sticky top-0 z-50 bg-white h-24 grid grid-cols-3 items-center border-b-1 border-gray-200 shadow-sm font-[Rubik]">
             <div className="px-7">
                 <p className='LOGO text-4xl font-[Satoshi] font-extrabold text-orange-400 select-none'>plated.</p>
             </div>

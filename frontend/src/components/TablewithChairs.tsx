@@ -39,8 +39,8 @@ const TableWithChairs = ({ table, big }: {table: tableType, big: boolean}) => {
 
   return (
     <HoverCard openDelay={100} closeDelay={100} open={big ? false : undefined}>
-      <HoverCardTrigger>
-        <div className={"relative select-none " + (big ? "w-130 h-130 " : "w-50 h-30 ") + (isAvailable && !big ? "cursor-pointer" : (big ? "" : "cursor-not-allowed"))} onClick={isAvailable && !big ? () => navigate(`/restaurants/${restaurantId}/tables/${tableId}`) : () => {}}>
+      <HoverCardTrigger asChild>
+        <div className={"relative select-none " + (big ? "w-130 h-130 " : "w-50 h-45 ") + (isAvailable && !big ? "cursor-pointer" : (big ? "" : "cursor-not-allowed"))} onClick={isAvailable && !big ? () => navigate(`/restaurants/${restaurantId}/tables/${tableId}`) : () => {}}>
           {/* Table */}
           <div className={"absolute top-1/2 left-1/2 text-white rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 " +  `${tableBorder} ${tableBG} ` + (big ? "w-80 h-80 border-8" : "w-24 h-24 border-4")}>
             <div className="flex flex-col items-center justify-center">

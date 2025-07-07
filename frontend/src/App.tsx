@@ -15,6 +15,7 @@ import Tables from "./pages/Tables"
 import SingleTable from "./pages/SingleTable"
 import OwnerLayout from "./pages/OwnerLayout"
 import OwnerSingleRestaurant from "./pages/OwnerSingleRestaurant"
+import OwnerSingleTable from "./pages/OwnerSingleTable"
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
       <Route element={<OwnerLayout />}>
         <Route path="/ownerhome" element={<OwnerProtected><OwnerRestaurants /></OwnerProtected>} />
         <Route path="/ownerrestaurant/:id" element={<OwnerProtected><OwnerSingleRestaurant /></OwnerProtected>} />
+        <Route path="/table/:id" element={<OwnerProtected><OwnerSingleTable /></OwnerProtected>} />
       </Route>
    </Routes>
   )

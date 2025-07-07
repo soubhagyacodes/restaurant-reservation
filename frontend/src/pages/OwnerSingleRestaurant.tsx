@@ -43,7 +43,7 @@ export default function OwnerSingleRestaurant() {
    const [restaurant, setRestaurant] = useState<ownerRestaurantType>()
    const [faultyFetch, setFaultyFetch] = useState<boolean>(false)
    const [loading, setLoading] = useState<boolean>(true)
-   const [content, setContent] = useState<string>("description")
+   const [content, setContent] = useState<string>("tables")
 
    useEffect(() => {
       getOwnerRestaurant(id)
@@ -109,7 +109,7 @@ export default function OwnerSingleRestaurant() {
 
                   <div className='grid grid-cols-12'>
                      <div className="col-span-8">
-                        <span className="bg-amber-300 inline-block p-3 rounded-t-xl text-white font-[Satoshi] font-bold text-xl mb-1"><span className="text-3xl font-extrabold mr-1">{pending}</span> New Pending Reservations</span>
+                        {pending > 0 ? <span className="bg-amber-300 inline-block p-3 rounded-t-xl text-white font-[Satoshi] font-bold text-xl mb-1"><span className="text-3xl font-extrabold mr-1">{pending}</span> New Pending Reservations</span> : <span className="bg-green-500 inline-block p-3 rounded-t-xl text-white font-[Satoshi] font-bold text-xl mb-1"><span className="text-3xl font-extrabold mr-1">{pending}</span> New Pending Reservations</span>}
                         <p className="font-[Satoshi] font-extrabold text-6xl">{restaurant?.name}</p>
 
                         <div className="mt-6 space-y-1">
@@ -169,7 +169,7 @@ export default function OwnerSingleRestaurant() {
                         (
                            content == "tables" ? (
                            restaurant?._count.tables && restaurant?._count.tables > 0 ? (
-                              <OwnerTables />
+                              <OwnerTables tables={tables}/>
                            ) :
                               (
                                  <div>
