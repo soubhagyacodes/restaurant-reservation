@@ -12,11 +12,11 @@ Built with developer ergonomics and clean architecture in mind. Supports:
 
 ## Tech Stack
 
+- **React + ShadCN UI** (frontend)
 - **Node.js** + **Express** (backend server)
 - **Prisma ORM**
 - **PostgreSQL**
 - **Zod** (for validation)
-- **React + ShadCN UI**
 
 ---
 
@@ -29,20 +29,30 @@ cd restaurant-reservation
 ```
 
 2. Install Dependencies
-   npm install
+ ```bash
+ npm install
+ ```
 
 3. Set up the database
    Update your .env:
-    DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
+```bash
+DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
+```
+   
+5. Run
+```bash
+npx prisma db push
+```
 
-4. Run
-   npx prisma db push
+6. Seed the database
+```bash
+npx prisma db seed
+```
 
-5. Seed the database
-   npx prisma db seed
-
-6. Start the dev server
-   cd /frontend
-   npm run dev
+7. Start the dev server
+```bash
+cd frontend
+npm run dev
+```
 
 
