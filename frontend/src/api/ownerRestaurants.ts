@@ -22,4 +22,8 @@ function handleGetOwnerRestaurants(error: unknown) {
    }
 }
 
-export { getOwnerRestaurants, handleGetOwnerRestaurants }
+function getOwnerRestaurant(id: string | undefined){
+   return axios.get(`http://localhost:3000/api/owner/restaurant/${id}`, {withCredentials: true})
+}
+
+export { getOwnerRestaurants, handleGetOwnerRestaurants, getOwnerRestaurant }
