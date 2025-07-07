@@ -1,5 +1,5 @@
 import { matchedData, validationResult } from "express-validator"
-import { createRestaurant, findRestaurant, updateRestaurant } from "../services/restaurant.service.js"
+import { createRestaurant, findOwnerRestaurant, findRestaurant, updateRestaurant } from "../services/restaurant.service.js"
 import prisma from "../../prisma/client.js"
 
 async function createRestaurantHandler(request, response) {
@@ -41,6 +41,21 @@ async function getRestaurantByIDHandler(request, response) {
         return response.status(500).send({ "msg": "Something went wrong when finding the restaurant" })
     }
 }
+
+async function getOwnerRestaurantByIDHandler(request, response) {
+    try {
+        const restaurantData = await findOwnerRestaurant(request.params.id)
+
+        if (restaurantData) return response.status(200).send(restaurantData)
+
+        return response.status(404).send({ "msg": "Restaurant Not Found" })
+    } catch (error) {
+        console.log(error)
+        return response.status(500).send({ "msg": "Something went wrong when finding the restaurant for owner" })
+    }
+}
+
+
 
 async function restaurantsOfUserHandler(request, response) {
     try {
@@ -140,4 +155,5 @@ async function getAllRestaurantHandler(request, response){
     
 }
 
-export { createRestaurantHandler, getRestaurantByIDHandler, restaurantsOfUserHandler, putRestaurantByIDHandler, deleteRestaurantByIDHandler, getAllRestaurantHandler }
+
+export { createRestaurantHandler, getRestaurantByIDHandler, restaurantsOfUserHandler, putRestaurantByIDHandler, deleteRestaurantByIDHandler, getAllRestaurantHandler, getOwnerRestaurantByIDHandler }

@@ -34,12 +34,48 @@ async function findRestaurant(id) {
                 orderBy: {
                     tableNumber: "asc"
                 }
-            }
+            },
+        
+        },
+        omit: {
+            ownerId: true
         }
     })
 
     return restaurantFound
 }
 
+async function findOwnerRestaurant(id){
+    const restaurantData = await prisma.restaurant.findUnique({
+        where: {
+            id
+        },
+        include: {
+            _count: true,
+            tables: {
+                include: {
+                    _count: true,
+                    reservationHistory: {
+                        include: {
+                            reservationBy: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    email: true,
+                                }
+                            },
+                        },
+                        omit: {
+                            userId: true
+                        }
+                    }
+                }
+            },
+        }
+    })
 
-export { createRestaurant, updateRestaurant, findRestaurant }
+    return restaurantData
+}
+
+
+export { createRestaurant, updateRestaurant, findRestaurant, findOwnerRestaurant }
