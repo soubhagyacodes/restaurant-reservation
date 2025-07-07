@@ -100,17 +100,50 @@ async function tableReservationsHandler(request, response){
     const tableID = request.params.id
 
     try {
-        const reservations = await prisma.table.findUnique({
+        const reservations = await prisma.reservation.findMany({
             where: {
-                id: tableID
+                tableId: tableID
             },
-            select: {
-                reservationHistory: true
+            
+            include: {
+                reservationBy: {
+                    select: {
+                        _count: {
+                            select: {
+                                reservations: true
+                            }
+                        },
+                        email: true,
+                        name: true,
+                        id: true,
+                    }
+                },
+
+            },
+            omit: {
+                tableId: true,
+                userId: true
             }
         })
 
-        if(reservations){
-            return response.status(200).send(reservations.reservationHistory)
+        const table = await prisma.table.findUnique({
+            where: {
+                id: tableID
+            },
+            include: {
+                ofRestaurant: {
+                    select: {
+                        name: true
+                    }
+                }
+            },
+            omit: {
+                restaurantId: true,
+            }
+        })
+
+        if(reservations && table){
+            return response.status(200).send({table, reservations})
         }
         
         return response.status(400).send({"msg": "Table does not exist with the TableID"})
