@@ -20,6 +20,7 @@ type tableType = {
       status: string,
       tabledId: string,
       reservationBy: {
+         _count: {reservations: number}
          id: string,
          name: string,
          email: string
@@ -161,28 +162,30 @@ export default function OwnerSingleRestaurant() {
                      </div>
 
                      {/* Sub-Content - Saare tabs ka content */}
-                     {content == "description" ? (
-                        <div className='text-gray-600'>
-                           {restaurant?.description}
-                        </div>
-                     ) :
-                        (
-                           content == "tables" ? (
-                           restaurant?._count.tables && restaurant?._count.tables > 0 ? (
-                              <OwnerTables tables={tables}/>
-                           ) :
-                              (
-                                 <div>
-                                    No Tables in this Restaurant currently.
-                                 </div>
-                              )
+                     <div>
+                        {content == "description" ? (
+                           <div className='text-gray-600'>
+                              {restaurant?.description}
+                           </div>
                         ) :
-                        // content is all-reservations then ----
-                        (
-                           <RestaurantAllReservations />
-                        )
-                        )
-                     }
+                           (
+                              content == "tables" ? (
+                              restaurant?._count.tables && restaurant?._count.tables > 0 ? (
+                                 <OwnerTables tables={tables}/>
+                              ) :
+                                 (
+                                    <div>
+                                       No Tables in this Restaurant currently.
+                                    </div>
+                                 )
+                           ) :
+                           // content is all-reservations then ----
+                           (
+                              <RestaurantAllReservations tables={tables}/>
+                           )
+                           )
+                        }
+                     </div>
                   </div>
                </>
             ))
