@@ -1,6 +1,7 @@
 import { getOwnerRestaurant } from "@/api/ownerRestaurants"
 import OwnerTables from "@/components/OwnerTables"
 import RestaurantAllReservations from "@/components/RestaurantAllReservations"
+import TableSettings from "@/components/TableSettings"
 import { Button } from "@/components/ui/button"
 import { Bug, Edit, History, Loader, MapPin, RectangleHorizontalIcon, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -159,6 +160,8 @@ export default function OwnerSingleRestaurant() {
                         <p className={"cursor-pointer hover:underline hover:underline-offset-14  w-20" + (content == "tables" ? " font-extrabold underline underline-offset-14 text-orange-400" : "")} onClick={() => setContent("tables")}>Tables</p>
                         <div className='w-px h-6 bg-gray-400 mr-5'></div>
                         <p className={"cursor-pointer hover:underline hover:underline-offset-14  w-40" + (content == "all-reservations" ? " font-extrabold underline underline-offset-14 text-orange-400" : "")} onClick={() => setContent("all-reservations")}>All Reservations</p>
+                        <div className='w-px h-6 bg-gray-400 mr-5'></div>
+                        <p className={"cursor-pointer hover:underline hover:underline-offset-14  w-40" + (content == "table-settings" ? " font-extrabold underline underline-offset-14 text-orange-400" : "")} onClick={() => setContent("table-settings")}>Table Settings</p>
                      </div>
 
                      {/* Sub-Content - Saare tabs ka content */}
@@ -179,8 +182,10 @@ export default function OwnerSingleRestaurant() {
                                     </div>
                                  )
                            ) :
-                           // content is all-reservations then ----
                            (
+                              content == "table-settings" ? <TableSettings tables={tables}/> 
+                              :
+                              // content is all-reservations then ----
                               <RestaurantAllReservations tables={tables}/>
                            )
                            )

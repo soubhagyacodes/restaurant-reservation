@@ -64,7 +64,7 @@ export default function OwnerTables({ tables }: { tables: tableType[] | undefine
                const [pending, confirmed, cancelled, old] = getData()
 
                return (
-                  <div className="flex items-center gap-2 border-1 border-gray-600 rounded-2xl w-full py-8">
+                  <div className="flex items-center gap-2 border-1 border-gray-600 rounded-2xl w-full py-8" key={table.id}>
                      <OwnerTableWithChairs big={false} key={table.id} table={table} />
                      <div className="bg-white p-6 rounded-xl">
                         <p className="text-orange-400 font-extrabold text-md font-[Satoshi]">New Reservations </p>
