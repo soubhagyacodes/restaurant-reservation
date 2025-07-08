@@ -1,4 +1,4 @@
-# Restaurant Reservation System
+# Plated. - Restaurant Reservation System
 
 A full-stack project for managing restaurant reservations using **React.js**, **Express.js**, **Typescript**, **Node.js**, **Prisma ORM**, and **PostgreSQL**.
 
