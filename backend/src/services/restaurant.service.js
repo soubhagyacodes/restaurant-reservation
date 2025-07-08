@@ -2,7 +2,21 @@ import prisma from '../../prisma/client.js'
 
 async function createRestaurant(data) {
     const restaurant = await prisma.restaurant.create({
-        data: data
+        data: data,
+        include: {
+            _count: true,
+            tables: {
+                select: {
+                    isAvailable: true,
+                    reservationHistory: {
+                        select: {
+                            reservationTime: true,
+                            status: true
+                        }
+                    }
+                }
+            }
+        }
     })
 
     return restaurant
@@ -74,9 +88,13 @@ async function findOwnerRestaurant(id){
                             userId: true
                         }
                     }
+                },
+                orderBy: {
+                    tableNumber: "asc"
                 }
             },
-        }
+        },
+        
     })
 
     return restaurantData
