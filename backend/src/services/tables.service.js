@@ -11,7 +11,22 @@ async function createTable(restaurantId, data) {
     }
 
     const table = await prisma.table.create({
-        data: finalData
+        data: finalData,
+        include: {
+            reservationHistory: {
+                include: {
+                    reservationBy: {
+                        select: {
+                            _count: true,
+                            email: true,
+                            name: true,
+                            id: true,
+                        }
+                    }
+                }
+            },
+            _count: true
+        }
     })
     return table
 
