@@ -59,7 +59,7 @@ export default function OwnerRestaurants() {
 
 							{((restaurants && restaurants?.length > 0) ? <div className="space-y-8 flex flex-col">
 								<div className="self-center flex gap-5 items-center font-medium text-xl font-[Satoshi] p-7 bg-orange-100 rounded-xl">Register a New Restaurant Here: <Button className="font-extrabold bg-orange-400 w-70 h-12 text-xl hover:bg-orange-400/80 hover:gap-x-4"><span>Register a Restaurant</span> <ArrowRight className="size-5" /></Button> </div>
-								<div className="space-y-7">{restaurants?.map((restaurant) => <OwnerRestaurantBox restaurant={restaurant} />)}</div>
+								<div className="space-y-7">{restaurants?.map((restaurant) => <OwnerRestaurantBox key={restaurant.id} restaurant={restaurant} onDelete={(id) => {setRestaurants((prev) => prev?.filter((restaurant) => restaurant.id != id))}}/>)}</div>
 							</div>
 								:
 								(

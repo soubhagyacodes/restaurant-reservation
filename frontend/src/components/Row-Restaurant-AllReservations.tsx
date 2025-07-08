@@ -71,7 +71,7 @@ export default function AllReservationsRestaurantRow({ reservation: { reservatio
                   </DialogDescription>
                </DialogHeader>
                <div className="flex justify-end gap-3">
-                  <DialogClose><Button variant={"outline"}>Close</Button></DialogClose>
+                  <DialogClose asChild><Button variant={"outline"}>Close</Button></DialogClose>
                   <Button className="bg-green-500 hover:bg-green-500/80" onClick={handleConfirmReservation}>Confirm Reservation</Button>
                </div>
             </DialogContent>
@@ -86,7 +86,7 @@ export default function AllReservationsRestaurantRow({ reservation: { reservatio
                   </DialogDescription>
                </DialogHeader>
                <div className="flex justify-end gap-3">
-                  <DialogClose><Button variant={"outline"}>Close</Button></DialogClose>
+                  <DialogClose asChild><Button variant={"outline"}>Close</Button></DialogClose>
                   <Button className="bg-red-500 hover:bg-red-500/80" onClick={handleCancelReservation}>Cancel Reservation</Button>
                </div>
             </DialogContent>

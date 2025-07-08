@@ -181,7 +181,7 @@ export default function SettingsRow({ table, onDelete }: { table: tableType, onD
                   </DialogDescription>
                </DialogHeader>
                <div className="flex justify-end gap-3">
-                  <DialogClose><Button variant={"outline"}>Close</Button></DialogClose>
+                  <DialogClose asChild><Button variant={"outline"}>Close</Button></DialogClose>
                   <Button className="bg-red-500 hover:bg-red-500/80" onClick={deleteHandler}>Delete Table</Button>
                </div>
             </DialogContent>

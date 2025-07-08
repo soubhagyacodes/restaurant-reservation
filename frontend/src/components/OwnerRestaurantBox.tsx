@@ -1,6 +1,17 @@
-import { EditIcon, LucideRectangleHorizontal, MapPin, Trash2 } from "lucide-react"
+import { EditIcon, Loader2, LucideRectangleHorizontal, MapPin, Trash2 } from "lucide-react"
 import { Button } from "./ui/button"
 import { useNavigate } from "react-router"
+import {
+   Dialog,
+   DialogClose,
+   DialogContent,
+   DialogDescription,
+   DialogHeader,
+   DialogTitle,
+} from "@/components/ui/dialog"
+import { useState } from "react"
+import { deleteRestaurant } from "@/api/ownerRestaurants"
+import { toast } from "sonner"
 
 type OwnerRestaurant = {
 	id: string,
@@ -21,7 +32,26 @@ type OwnerRestaurant = {
 }
 
 
-export default function OwnerRestaurantBox({ restaurant }: { restaurant: OwnerRestaurant }) {
+export default function OwnerRestaurantBox({ restaurant, onDelete }: { restaurant: OwnerRestaurant, onDelete: (id: string) => void }) {
+   const [deleteDialog, setDeleteDialog] = useState(false)
+   const [loading, setLoading] = useState(false)
+   
+   async function handleDeleteRestaurant(){
+      setLoading(true)
+
+      try {
+         await deleteRestaurant(restaurant.id)
+         onDelete(restaurant.id)
+         setDeleteDialog(false)
+      } catch (error) {
+         console.log(error)
+         toast.error("Something Went Wrong", {description: "Please Try Deleting Later."})
+      } finally{
+         setLoading(false)
+      }
+   }
+   
+   
    const getData = () => {
       let available = 0
       let pending = 0
@@ -48,6 +78,7 @@ export default function OwnerRestaurantBox({ restaurant }: { restaurant: OwnerRe
 
    const navigate = useNavigate()
    return (
+      <>
       <div className="min-h-50 border-2 p-10 border-gray-400/60 rounded-md overflow-hidden grid-cols-12 grid group hover:border-orange-300 hover:shadow-md duration-200">
          <div className="col-span-9 cursor-pointer" onClick={() => {navigate(`/ownerrestaurant/${restaurant.id}`); scrollTo({behavior: "smooth", top: 0})}}>
             {pending > 0 && <span className="inline-block bg-yellow-400 text-xl p-1 px-2 rounded-t-xl text-white font-extrabold font-[Satoshi] mb-1">{pending} New Pending Reservations</span>}
@@ -67,9 +98,26 @@ export default function OwnerRestaurantBox({ restaurant }: { restaurant: OwnerRe
          <div className="col-span-3 flex items-center justify-center">
             <div className="flex flex-col gap-3 h-full w-full justify-center">
                <Button className="bg-orange-400/90 hover:bg-orange-400/70 text-xl h-12"><EditIcon className="size-5"/>Edit Details</Button>
-               <Button className="bg-red-500 hover:bg-red-400/90 h-12 text-xl"><Trash2 className="size-5"/>Delete</Button>
+               <Button className="bg-red-500 hover:bg-red-400/90 h-12 text-xl" onClick={() => {setDeleteDialog(true)}}><Trash2 className="size-5"/>Delete</Button>
             </div>
          </div>
       </div>
+
+      <Dialog open={deleteDialog} onOpenChange={setDeleteDialog}>
+            <DialogContent className="font-[Satoshi]">
+               <DialogHeader>
+                  <DialogTitle className="text-xl">Are you absolutely sure to delete this restaurant <b className="text-red-500">{restaurant.name}?</b></DialogTitle>
+                  <DialogDescription>
+                     This action cannot be undone. All the related reservations and tables of this restaurant will be permanently deleted.
+                  </DialogDescription>
+               </DialogHeader>
+               <div className="flex justify-end gap-3">
+                  <DialogClose asChild><Button variant={"outline"}>Close</Button></DialogClose>
+                  {loading ? <Button className="bg-red-500 hover:bg-red-500/80" onClick={handleDeleteRestaurant} disabled><Loader2 className="animate-spin"/>Delete Restaurant</Button>: <Button className="bg-red-500 hover:bg-red-500/80" onClick={handleDeleteRestaurant}>Delete Restaurant</Button>}
+               </div>
+            </DialogContent>
+         </Dialog>
+
+      </>
    )
 }

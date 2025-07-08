@@ -98,7 +98,7 @@ export default function ReservationBox({ reservation }: { reservation: reservati
                   </DialogDescription>
                </DialogHeader>
                <div className="flex items-center justify-end mt-5 gap-3">
-                  <DialogClose><Button variant={"outline"} className="border-2">Close</Button></DialogClose>
+                  <DialogClose asChild><Button variant={"outline"} className="border-2">Close</Button></DialogClose>
                   <Button className="bg-red-500 hover:bg-red-500/90" onClick={cancelReservationHandler}>Yes</Button>
                </div>
             </DialogContent>

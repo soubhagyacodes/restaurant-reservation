@@ -118,8 +118,9 @@ export default function TableSettings({ tables, restaurantID }: { tables: tableT
       <>
          <div>
             {tables?.length == 0 ?
-               <div className="flex flex-col items-center justify-center h-50 text-xl">
+               <div className="flex flex-col items-center justify-center h-50 text-xl gap-3">
                   No Tables in this restaurant yet.
+                  <Button className="bg-orange-400 hover:bg-orange-400/80" onClick={() => { setAddTableDialog(true) }}>+ Add a Table</Button>
                </div>
                :
                <>

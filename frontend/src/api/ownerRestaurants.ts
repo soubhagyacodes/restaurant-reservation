@@ -4,6 +4,10 @@ async function getOwnerRestaurants() {
    return axios.get("http://localhost:3000/api/my-restaurants", { withCredentials: true })
 }
 
+async function deleteRestaurant(id: string | undefined){
+   return axios.delete(`http://localhost:3000/api/restaurants/${id}`, {withCredentials: true})
+}
+
 function handleGetOwnerRestaurants(error: unknown) {
    if (error instanceof AxiosError) {
       if (error.response) {
@@ -26,4 +30,4 @@ function getOwnerRestaurant(id: string | undefined){
    return axios.get(`http://localhost:3000/api/owner/restaurant/${id}`, {withCredentials: true})
 }
 
-export { getOwnerRestaurants, handleGetOwnerRestaurants, getOwnerRestaurant }
+export { getOwnerRestaurants, handleGetOwnerRestaurants, getOwnerRestaurant, deleteRestaurant }
