@@ -62,6 +62,11 @@ async function findOwnerRestaurant(id){
                                     id: true,
                                     name: true,
                                     email: true,
+                                    _count: {
+                                        select: {
+                                            reservations: true
+                                        }
+                                    }
                                 }
                             },
                         },

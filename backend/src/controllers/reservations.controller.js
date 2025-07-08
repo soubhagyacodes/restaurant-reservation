@@ -123,6 +123,9 @@ async function tableReservationsHandler(request, response){
             omit: {
                 tableId: true,
                 userId: true
+            },
+            orderBy: {
+                reservationTime: "desc"
             }
         })
 

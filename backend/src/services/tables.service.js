@@ -48,4 +48,15 @@ async function deleteTable(tableID){
     return deleted
 }
 
-export { createTable, findTablesofRest,findTable, deleteTable }
+async function patchTable(tableID, data){
+    const updated = await prisma.table.update({
+        where: {
+            id: tableID
+        },
+        data
+    })
+
+    return updated
+}
+
+export { createTable, findTablesofRest,findTable, deleteTable, patchTable }

@@ -1,7 +1,7 @@
 import { matchedData, validationResult } from "express-validator"
 import prisma from "../../prisma/client.js"
 import { findRestaurant } from "../services/restaurant.service.js"
-import { createTable, deleteTable, findTable, findTablesofRest } from "../services/tables.service.js"
+import { createTable, deleteTable, findTable, findTablesofRest, patchTable } from "../services/tables.service.js"
 
 async function addTableHandler(request, response) {
     //   tableNumber Int (should be unique)
@@ -102,5 +102,22 @@ async function deleteTableHandler(request, response) {
     
 }
 
-export { addTableHandler, getTableHandler, deleteTableHandler }
+async function patchTableHandler(request, response){
+    const tableID = request.params.id
+    const data = matchedData(request)
+    const result = validationResult(request)
+
+    if(!result.isEmpty()){
+        return response.status(400).send({"msg": "Incorrect Data", "violations": result.mapped()})
+    }
+    try {
+        await patchTable(tableID, data)
+        return response.status(200).send({"msg": "Success"})
+    } catch (error) {
+        console.log("error while patching a table: ", error)
+        return response.status(500).send({"msg": "Something went wrong while patching a table"})
+    }
+}
+
+export { addTableHandler, getTableHandler, deleteTableHandler, patchTableHandler }
 

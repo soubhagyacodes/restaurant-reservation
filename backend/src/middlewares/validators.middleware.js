@@ -204,5 +204,18 @@ const mailValidator = [
 
 ]
 
+const patchTableValidator = [
+    body("seats")
+        .exists().withMessage("seats is Missing")
+        .toInt()
+        .isInt({ min: 1 }).withMessage("seats must be an integer and should be at least 1"),
+    body("isAvailable")
+        .exists().withMessage("isAvailable is Missing")
+        .custom(value => {
+            if (value === true || value === false) return true
+            else return false
+        }).withMessage("isAvailable must be boolean")
+]
 
-export { registerValidator, loginValidator, restaurantValidator, tableValidator, reservationValidator, statusValidator, mailValidator }
+
+export { registerValidator, loginValidator, restaurantValidator, tableValidator, reservationValidator, statusValidator, mailValidator, patchTableValidator }
