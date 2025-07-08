@@ -106,7 +106,7 @@ export default function OwnerRestaurantBox({ restaurant, onDelete }: { restauran
       <Dialog open={deleteDialog} onOpenChange={setDeleteDialog}>
             <DialogContent className="font-[Satoshi]">
                <DialogHeader>
-                  <DialogTitle className="text-xl">Are you absolutely sure to delete this restaurant <b className="text-red-500">{restaurant.name}?</b></DialogTitle>
+                  <DialogTitle className="text-xl">Are you absolutely sure to delete the restaurant <b className="text-red-500">{restaurant.name}?</b></DialogTitle>
                   <DialogDescription>
                      This action cannot be undone. All the related reservations and tables of this restaurant will be permanently deleted.
                   </DialogDescription>
