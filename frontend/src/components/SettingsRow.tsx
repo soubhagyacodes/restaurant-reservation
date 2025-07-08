@@ -20,8 +20,17 @@ import {
    SelectValue,
 } from "@/components/ui/select"
 import { Circle } from "lucide-react"
-import { patchTable } from "@/api/tables"
+import { deleteTable, patchTable } from "@/api/tables"
 import { toast } from "sonner"
+
+import {
+   Dialog,
+   DialogClose,
+   DialogContent,
+   DialogDescription,
+   DialogHeader,
+   DialogTitle,
+} from "@/components/ui/dialog"
 
 type tableType = {
    id: string,
@@ -59,10 +68,12 @@ const formSchema = z.object({
    }, { message: "This field must be defined", path: ["isAvailable"] })
 
 
-export default function SettingsRow({ table }: { table: tableType }) {
+export default function SettingsRow({ table, onDelete }: { table: tableType, onDelete: (id: string) => void }) {
    const [varSeats, setSeats] = useState(table.seats)
    const [varisAvailable, setIsAvailable] = useState(table.isAvailable)
    const [editMode, setEditMode] = useState(false)
+   const [deleteDialog, setDeleteDialog] = useState(false)
+
 
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -90,6 +101,17 @@ export default function SettingsRow({ table }: { table: tableType }) {
       }
    }
 
+   async function deleteHandler(){
+      setDeleteDialog(false)
+      try {
+         await deleteTable(table.id)
+         onDelete(table.id)
+      } catch (error) {
+         console.log(error)
+         toast.error("Something Went Wrong", {description: "Try deleting later."})
+      }
+   }
+
    return (
       <>
          {!editMode &&
@@ -101,7 +123,10 @@ export default function SettingsRow({ table }: { table: tableType }) {
                   :
                   <p className="text-red-500 font-semibold col-span-2">Not In Service</p>
                }
-               <Button className="w-fit border-1 border-orange-400 bg-white text-orange-400 hover:bg-orange-400 hover:text-white" onClick={() => { setEditMode(true) }}>Edit</Button>
+               <div className="flex gap-2">
+                  <Button className="w-fit border-1 border-orange-400 bg-white text-orange-400 hover:bg-orange-400 hover:text-white" onClick={() => { setEditMode(true) }}>Edit</Button>
+                  <Button className="w-fit border-1 border-orange-400 bg-white text-red-500 hover:bg-red-500 hover:text-white" onClick={() => { setDeleteDialog(true)}}>Delete</Button>
+               </div>
             </div>
          }
          {editMode &&
@@ -146,6 +171,21 @@ export default function SettingsRow({ table }: { table: tableType }) {
                </Form>
 
             </div>}
+
+            <Dialog open={deleteDialog} onOpenChange={setDeleteDialog}>
+            <DialogContent className="font-[Satoshi]">
+               <DialogHeader>
+                  <DialogTitle className="text-xl">Are you absolutely sure to delete <b className="text-red-500">Table #{table.tableNumber}</b></DialogTitle>
+                  <DialogDescription>
+                     This action cannot be undone. All the associated reservations will be deleted.
+                  </DialogDescription>
+               </DialogHeader>
+               <div className="flex justify-end gap-3">
+                  <DialogClose><Button variant={"outline"}>Close</Button></DialogClose>
+                  <Button className="bg-red-500 hover:bg-red-500/80" onClick={deleteHandler}>Delete Table</Button>
+               </div>
+            </DialogContent>
+         </Dialog>
       </>
    )
 }

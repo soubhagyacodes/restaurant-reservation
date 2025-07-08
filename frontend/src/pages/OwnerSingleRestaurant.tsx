@@ -183,7 +183,7 @@ export default function OwnerSingleRestaurant() {
                                  )
                            ) :
                            (
-                              content == "table-settings" ? <TableSettings tables={tables}/> 
+                              content == "table-settings" ? <TableSettings tables={tables} restaurantID={restaurant?.id}/> 
                               :
                               // content is all-reservations then ----
                               <RestaurantAllReservations tables={tables}/>
