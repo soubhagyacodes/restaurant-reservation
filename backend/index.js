@@ -16,10 +16,12 @@ import { matchedData, validationResult } from "express-validator";
 
 
 export const app = express()
-const port = process.env.PORT
+const port = process.env.PORT || 3000
+
+const isProd = process.env.NODE_ENV === "production";
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: isProd ? process.env.CLIENT_URL_PROD : "http://localhost:5173",
     credentials: true,
 }))
 

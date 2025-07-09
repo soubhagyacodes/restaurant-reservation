@@ -7,7 +7,7 @@ import 'dotenv/config'
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `${process.env.SERVER_URL_DEV}${process.env.GOOGLE_CALLBACK_URL}`
+    callbackURL: `${process.env.SERVER_URL_PROD}${process.env.GOOGLE_CALLBACK_URL}`
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         const found = await prisma.user.findUnique({
