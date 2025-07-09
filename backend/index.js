@@ -18,11 +18,9 @@ import { matchedData, validationResult } from "express-validator";
 const app = express()
 const port = process.env.PORT || 3000
 
-const isProd = process.env.NODE_ENV === "production";
-
 app.use(cors({
-    origin: isProd ? process.env.CLIENT_URL_PROD : "http://localhost:5173",
-    credentials: true,
+    origin: process.env.CLIENT_URL_PROD,
+    credentials: true
 }))
 
 app.use(express.json())
@@ -59,6 +57,16 @@ app.get("/api/auth/me", (req, res) => {
         email,
         role
     })
+})
+
+app.get("/cookie", (req,res) => {
+    res.cookie("test-cookie", "testing done", {
+        sameSite: "none",
+        secure: true,
+        httpOnly: true,
+    })
+
+    return res.send("cookie sent")
 })
 
 app.post("/mail", mailValidator ,  async (req, res) => {
