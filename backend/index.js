@@ -15,7 +15,7 @@ import { mailValidator } from "./src/middlewares/validators.middleware.js";
 import { matchedData, validationResult } from "express-validator";
 
 
-export const app = express()
+const app = express()
 const port = process.env.PORT || 3000
 
 const isProd = process.env.NODE_ENV === "production";
