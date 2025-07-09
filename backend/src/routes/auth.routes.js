@@ -18,6 +18,8 @@ router.get("/google/callback", passport.authenticate("google", { session: false}
     return response.cookie("jwt", token, {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
+        secure: true,
+        sameSite: "none"
     }).redirect(`${process.env.CLIENT_URL_PROD}/restaurants`)
 })
 

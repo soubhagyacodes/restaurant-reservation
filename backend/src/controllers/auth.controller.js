@@ -80,11 +80,15 @@ const loginController = async (request, response) => {
                 return response.cookie("jwt", token, {
                     maxAge: 7 * 24 * 60 * 60 * 1000,
                     httpOnly: true,
+                    secure: true,
+                    sameSite: "none"
                 }).status(200).send({ "msg": "Logged In." })
             }
 
             return response.cookie("jwt", token, {
                 httpOnly: true,
+                secure: true,
+                sameSite: "none"
             }).status(200).send({ "msg": "Logged In." })        
         }
 
