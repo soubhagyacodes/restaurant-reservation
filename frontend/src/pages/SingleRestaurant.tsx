@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import axios from 'axios'
+import axios from '../config/axios'
 import { Bug, History, Loader, MapPin, RectangleHorizontalIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
@@ -37,7 +37,7 @@ export default function SingleRestaurant() {
    const [content, setContent] = useState<string>("description")
 
    useEffect(() => {
-      axios.get(`http://localhost:3000/api/restaurants/${id}`, {withCredentials: true})
+      axios.get(`/api/restaurants/${id}`, {withCredentials: true})
          .then((response) => {
             setRestaurant({...response.data})
          })

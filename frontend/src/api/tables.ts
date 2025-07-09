@@ -1,16 +1,17 @@
-import axios, { AxiosError } from "axios"
+import { AxiosError } from "axios"
+import axios from '../config/axios'
 import { toast } from "sonner"
 
 async function patchTable(id : string, data: {seats: number, isAvailable: boolean}){
-   return axios.patch(`http://localhost:3000/api/tables/${id}`, data, {withCredentials: true})
+   return axios.patch(`/api/tables/${id}`, data, {withCredentials: true})
 }
 
 async function deleteTable(id: string){
-   return axios.delete(`http://localhost:3000/api/tables/${id}`, {withCredentials: true})
+   return axios.delete(`/api/tables/${id}`, {withCredentials: true})
 }
 
 async function addTable(restaurantID: string | undefined, data: {seats: number, isAvailable: boolean, tableNumber: number}){
-   return axios.post(`http://localhost:3000/api/restaurants/${restaurantID}/tables`, data, {withCredentials: true})
+   return axios.post(`/api/restaurants/${restaurantID}/tables`, data, {withCredentials: true})
 }
 
 const handleCreateTableErrors = (error: unknown) => {

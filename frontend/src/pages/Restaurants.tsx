@@ -8,7 +8,7 @@ import {
     RadioGroupItem,
 } from "@/components/ui/radio-group"
 import RestaurantBox from "@/components/RestaurantBox";
-import axios from "axios";
+import axios from '../config/axios'
 import { useSearchParams } from "react-router";
 
 
@@ -45,7 +45,7 @@ export default function Restaurants() {
     const filter2 = queryParams.filter2 ? queryParams.filter2 : "all"
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/restaurants", { withCredentials: true })
+        axios.get("/api/restaurants", { withCredentials: true })
             .then((response) => {
                 console.log(response.data)
                 setRestaurants(response.data)

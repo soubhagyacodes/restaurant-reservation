@@ -1,20 +1,21 @@
-import axios, { AxiosError } from "axios"
+import { AxiosError } from "axios"
+import axios from '../config/axios'
 import { toast } from "sonner"
 
 const createReservation = (values: { reservationTime: string, duration: number, tableId: string }) => {
-   return axios.post("http://localhost:3000/api/reservations", values, { withCredentials: true })
+   return axios.post("/api/reservations", values, { withCredentials: true })
 }
 
 const getUserReservations = () => {
-   return axios.get("http://localhost:3000/api/reservations", {withCredentials: true})
+   return axios.get("/api/reservations", {withCredentials: true})
 }
 
 const cancelReservation = (id: string) => {
-   return axios.get(`http://localhost:3000/api/reservations/${id}`, {withCredentials: true})
+   return axios.get(`/api/reservations/${id}`, {withCredentials: true})
 }
 
 const getTableReservations = (id: string | undefined) => {
-   return axios.get(`http://localhost:3000/api/reservations/table/${id}`, {withCredentials: true})
+   return axios.get(`/api/reservations/table/${id}`, {withCredentials: true})
 }
 
 const handleCreateReservationErrors = (error: unknown, loadingID: string | number) => {

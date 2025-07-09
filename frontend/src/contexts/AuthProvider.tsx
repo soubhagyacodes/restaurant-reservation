@@ -1,4 +1,5 @@
-import axios, { AxiosError } from "axios";
+import  { AxiosError } from "axios";
+import axios from '../config/axios'
 import { useEffect, useState } from "react"
 import type { JSX } from "react/jsx-runtime";
 import AuthContext from "./Authcontext";
@@ -16,7 +17,7 @@ export default function AuthProvider({ children }: { children: JSX.Element }) {
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/auth/me", { withCredentials: true })
+        axios.get("/api/auth/me", { withCredentials: true })
             .then((response) => {
                 setUser(response.data)
             })

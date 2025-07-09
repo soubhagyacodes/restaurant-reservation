@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from '../config/axios'
 
 type mailDetailsType = {
    tableNumber: number,
@@ -12,7 +12,7 @@ type mailDetailsType = {
 }
 
 function sendMail(values: mailDetailsType) {
-   return axios.post("http://localhost:3000/mail", values, {withCredentials: true})
+   return axios.post("/mail", values, {withCredentials: true})
 }
 
 export { sendMail }

@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from '../config/axios'
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router"
 import type { restaurantType } from "./Tables"
@@ -14,7 +14,7 @@ export default function SingleTable() {
 	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {
-		axios.get(`http://localhost:3000/api/restaurants/${restaurantId}`, { withCredentials: true })
+		axios.get(`/api/restaurants/${restaurantId}`, { withCredentials: true })
 			.then((response) => {
 				setRestaurant({ ...response.data })
 			})

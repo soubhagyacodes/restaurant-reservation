@@ -1,5 +1,5 @@
 import TableWithChairs from "@/components/TablewithChairs"
-import axios from "axios"
+import axios from '../config/axios'
 import { ArrowUp, Circle, History, Loader, MapPin, RectangleHorizontalIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
@@ -35,7 +35,7 @@ export default function Tables() {
 	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {
-		axios.get(`http://localhost:3000/api/restaurants/${restaurantId}`, { withCredentials: true })
+		axios.get(`/api/restaurants/${restaurantId}`, { withCredentials: true })
 			.then((response) => {
 				setRestaurant({ ...response.data })
 			})

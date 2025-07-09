@@ -7,6 +7,8 @@ interface AuthFormProps {
   Form: React.ComponentType
 }
 
+const BACKEND_URL = import.meta.env.VITE_API_URL
+
 export default function AuthForm({name, desc, Form} : AuthFormProps) {
   return (
     <div>
@@ -22,7 +24,7 @@ export default function AuthForm({name, desc, Form} : AuthFormProps) {
         <hr className="flex-1 "/>
       </div>
 
-      <Link to={"http://localhost:3000/api/auth/google"}>
+      <Link to={`${BACKEND_URL}/api/auth/google`}>
         <Button className="w-full h-11 font-[Rubik]" variant="outline">
           <img src="../../Google.png" alt="Google" className="size-5 mr-1"/>  Continue with Google
         </Button>

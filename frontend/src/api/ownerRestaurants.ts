@@ -1,20 +1,21 @@
-import axios, { AxiosError } from "axios"
+import { AxiosError } from "axios"
+import axios from '../config/axios'
 import { toast } from "sonner"
 
 async function getOwnerRestaurants() {
-   return axios.get("http://localhost:3000/api/my-restaurants", { withCredentials: true })
+   return axios.get("/api/my-restaurants", { withCredentials: true })
 }
 
 async function deleteRestaurant(id: string | undefined){
-   return axios.delete(`http://localhost:3000/api/restaurants/${id}`, {withCredentials: true})
+   return axios.delete(`/api/restaurants/${id}`, {withCredentials: true})
 }
 
 async function registerRestaurant(data: {name: string, location: string, description: string}){
-   return axios.post("http://localhost:3000/api/restaurants", data, {withCredentials: true})
+   return axios.post("/api/restaurants", data, {withCredentials: true})
 }
 
 async function editRestaurant(id: string, data: {name: string, location: string, description: string}){
-   return axios.put(`http://localhost:3000/api/restaurants/${id}`, data, {withCredentials: true})
+   return axios.put(`/api/restaurants/${id}`, data, {withCredentials: true})
 }
 
 function handleGetOwnerRestaurants(error: unknown) {
@@ -80,7 +81,7 @@ const handleEditRestaurantErrors = (error: unknown) => {
 }
 
 function getOwnerRestaurant(id: string | undefined){
-   return axios.get(`http://localhost:3000/api/owner/restaurant/${id}`, {withCredentials: true})
+   return axios.get(`/api/owner/restaurant/${id}`, {withCredentials: true})
 }
 
 export { getOwnerRestaurants, handleGetOwnerRestaurants, getOwnerRestaurant, deleteRestaurant, registerRestaurant, handleCreateRestaurantErrors,handleEditRestaurantErrors, editRestaurant }

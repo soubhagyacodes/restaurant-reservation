@@ -1,18 +1,19 @@
 import type { loginFormType } from "@/components/SignInForm"
 import type { registerformType } from "@/components/SignUpForm"
-import axios, { AxiosError } from "axios"
+import axios from '../config/axios';
+import { AxiosError } from "axios";
 import { toast } from "sonner"
 
 export const loginUser = (values: loginFormType) => {
-    return axios.post('http://localhost:3000/api/auth/login', values, { withCredentials: true })
+    return axios.post('/api/auth/login', values, { withCredentials: true })
 }
 
 export const registerUser = (values: registerformType) => {
-    return axios.post('http://localhost:3000/api/auth/register', values, {withCredentials: true})
+    return axios.post('/api/auth/register', values, {withCredentials: true})
 }
 
 export const fetchUser = () => {
-    return axios.get('http://localhost:3000/api/auth/me', { withCredentials: true })
+    return axios.get('/api/auth/me', { withCredentials: true })
 }
 
 export const handleFetchUserError = (error: unknown) => {
