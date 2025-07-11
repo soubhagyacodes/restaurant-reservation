@@ -16,26 +16,26 @@ export const fetchUser = () => {
     return axios.get('/api/auth/me', { withCredentials: true })
 }
 
-export const handleFetchUserError = (error: unknown) => {
+export const handleFetchUserError = (error: unknown, loadingID: string | number) => {
     if (error instanceof AxiosError) {
           if (error.response) {
-            console.log("Unauthorized User: ", error)
-            toast.error("Something Went Wrong. Login Again", {description: error.response.data.msg})
+            console.log("User is not allowing third party cookies: ", error)
+            toast.error("You need to enable third-party cookies in order to login", {description: "Change your cookie preferences.", id:loadingID})
           }
           else if (error.request) {
             console.log("Error while fetching the user details from the server (server didn't respond): ", error)
-            toast.error("Something Went Wrong. Login Again", {description: "There was an in issue getting your details."})
+            toast.error("Something Went Wrong. Login Again", {description: "There was an in issue getting your details.", id: loadingID})
 
           }
           else {
             console.log("Error while setting up the request for fetching the user details: ", error)
-            toast.error("Something Went Wrong. Login Again", {description: "There was an in issue getting your details."})
+            toast.error("Something Went Wrong. Login Again", {description: "There was an in issue getting your details.", id: loadingID})
 
           }
         }
         else {
           console.log("Something went wrong when finding the user details: ", error)
-            toast.error("Something Went Wrong. Login Again", {description: "There was an in issue getting your details."})
+            toast.error("Something Went Wrong. Login Again", {description: "There was an in issue getting your details.", id: loadingID})
 
         }
 }

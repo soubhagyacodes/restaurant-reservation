@@ -119,7 +119,7 @@ export default function OwnerRestaurants() {
 										<div className="h-110 flex items-center justify-center text-2xl gap-2 m-10 bg-orange-100 rounded-xl">
 											<div className="flex flex-col justify-center items-center gap-4 text-2xl font-semibold">
 												No Restaurants Found. Register one now.
-												<Button className="font-bold bg-orange-400 w-80 h-12 text-xl hover:bg-orange-400/80 hover:gap-x-4"><span>Register a Restaurant</span> <ArrowRight className="size-5" /></Button>
+												<Button className="font-bold bg-orange-400 w-80 h-12 text-xl hover:bg-orange-400/80 hover:gap-x-4" onClick={() => setAddRestaurantDialog(true)}><span>Register a Restaurant</span> <ArrowRight className="size-5" /></Button>
 											</div>
 										</div>
 									)

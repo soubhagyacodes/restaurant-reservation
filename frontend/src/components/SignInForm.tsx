@@ -73,7 +73,7 @@ export default function SignInForm() {
         toast.success(response.data.msg, { description: "Welcome to plated.", id: loadingID })
 
       } catch (error) {
-        handleFetchUserError(error)
+        handleFetchUserError(error, loadingID)
       }
       finally {
         setLoading(false)

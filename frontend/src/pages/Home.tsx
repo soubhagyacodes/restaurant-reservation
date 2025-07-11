@@ -19,7 +19,6 @@ export default function Home() {
         }
 
         else if(user.role === "OWNER"){
-            console.log("reached here")
             navigate("/ownerhome")
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
