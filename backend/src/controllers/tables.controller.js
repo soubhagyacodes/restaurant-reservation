@@ -26,12 +26,11 @@ async function addTableHandler(request, response) {
     }
 
     try {
-        const tableExists = await prisma.restaurant.findFirst({
+        const tableExists = await prisma.table.findUnique({
             where: {
-                tables: {
-                    some: {
-                        tableNumber: parseInt(data.tableNumber)
-                    }
+                tableNumber_restaurantId: {
+                    restaurantId: data.restaurantId,
+                    tableNumber: parseInt(data.tableNumber)
                 }
             }
         })
