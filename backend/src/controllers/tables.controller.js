@@ -29,7 +29,7 @@ async function addTableHandler(request, response) {
         const tableExists = await prisma.table.findUnique({
             where: {
                 tableNumber_restaurantId: {
-                    restaurantId: data.restaurantId,
+                    restaurantId: request.params.id,
                     tableNumber: parseInt(data.tableNumber)
                 }
             }
