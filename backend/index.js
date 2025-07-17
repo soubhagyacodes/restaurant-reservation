@@ -61,46 +61,56 @@ app.use("/api", managementRoutes)
 
 
 app.get("/api/auth/me", (req, res) => {
-    const { id, name, email, role } = req.user
+  const { id, name, email, role } = req.user
 
-    return res.status(200).send({
-        id,
-        name,
-        email,
-        role
-    })
+  return res.status(200).send({
+    id,
+    name,
+    email,
+    role
+  })
 })
 
-app.get("/cookie", (req,res) => {
-    res.cookie("test-cookie", "testing done", {
-        sameSite: "none",
-        secure: true,
-        httpOnly: true,
-    })
+app.get("/cookie", (req, res) => {
+  res.cookie("test-cookie", "testing done", {
+    sameSite: "none",
+    secure: true,
+    httpOnly: true,
+  })
 
-    return res.send("cookie sent")
+  return res.send("cookie sent")
 })
 
-app.post("/mail", mailValidator ,  async (req, res) => {
-    const { email } = req.user
+app.post("/mail", mailValidator, async (req, res) => {
+  const { email } = req.user
 
-    const data = matchedData(req)
-    const result = validationResult(req)
+  const data = matchedData(req)
+  const result = validationResult(req)
 
-    if(result.array().length != 0){
-        return res.status(400).send({"msg": "Data Not Accurate", "violations": result.array()})
-    }
+  if (result.array().length != 0) {
+    return res.status(400).send({ "msg": "Data Not Accurate", "violations": result.array() })
+  }
 
-    try {
-        await sendMail(email, data)
-        return res.status(200).send({"msg": "Mail Sent Successfully"})
-    } catch (error) {
-        console.log(error)
-        return res.status(500).send({"msg": "Something went wrong when sending the mail"})
-    }
+  try {
+    await sendMail(email, data)
+    return res.status(200).send({ "msg": "Mail Sent Successfully" })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send({ "msg": "Something went wrong when sending the mail" })
+  }
+})
+
+app.get("/logout", async (req, res) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none"
+  })
+
+  return res.status(200).send({ 'msg': "Logged out." })
 })
 
 
 app.listen(port, () => {
-    console.log(`Server running on the port ${port}`)
+  console.log(`Server running on the port ${port}`)
 })
