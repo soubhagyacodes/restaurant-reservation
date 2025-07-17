@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, type Dispatch, type SetStateAction } from "react"
 import { Button } from "./ui/button"
 import {
    Dialog,
@@ -78,7 +78,7 @@ const formSchema = z.object({
 
 
 
-export default function TableSettings({ tables, restaurantID }: { tables: tableType[] | undefined, restaurantID: string | undefined}) {
+export default function TableSettings({ tables, restaurantID, setGlobalTables }: { tables: tableType[] | undefined, restaurantID: string | undefined, setGlobalTables: Dispatch<SetStateAction<tableType[] | undefined>>}) {
    const [varTables, setTables] = useState<tableType[] | undefined>(tables)
    const [addTableDialog, setAddTableDialog] = useState(false)
    const [loading, setLoading] = useState(false)
@@ -94,22 +94,22 @@ export default function TableSettings({ tables, restaurantID }: { tables: tableT
 
    async function addTableHandler(values: z.infer<typeof formSchema>) {
       setLoading(true)
-      const data = { 
-         seats: parseInt(values.seats), 
-         isAvailable: values.isAvailable == "available" ? true : false, 
-         tableNumber: parseInt(values.tableNumber) 
+      const data = {
+         seats: parseInt(values.seats),
+         isAvailable: values.isAvailable == "available" ? true : false,
+         tableNumber: parseInt(values.tableNumber)
       }
 
       try {
-         console.log(restaurantID)
          const response = await addTable(restaurantID, data)
          setTables([...(varTables ?? []), response.data])
+         setGlobalTables([...(varTables ?? []), response.data])
          toast.success("Table Added Successfully")
          setAddTableDialog(false)
       } catch (error) {
          console.log(error)
          handleCreateTableErrors(error)
-      } finally{
+      } finally {
          setLoading(false)
       }
    }
@@ -127,7 +127,27 @@ export default function TableSettings({ tables, restaurantID }: { tables: tableT
                   <Button className="mb-6 bg-orange-400 hover:bg-orange-400/80" onClick={() => { setAddTableDialog(true) }}>+ Add a Table</Button>
                   <div className="space-y-1">
                      {varTables?.map((table) => {
-                        return <SettingsRow table={table} key={table.id} onDelete={(id: string) => { setTables((prev) => prev?.filter((table) => table.id != id)) }} />
+                        return <SettingsRow 
+                        table={table} 
+                        key={table.id} 
+                        onDelete={(id: string) => {
+                           setTables((prev) => prev?.filter((table) => table.id != id));
+                           setGlobalTables((prev) => prev?.filter((table) => table.id != id))
+                        }}
+                        onDetailChange={(id, isAvailable, seats) => {
+                           setGlobalTables((prev) => {
+                              const updated = prev?.map((table) => {
+                                 if(table.id == id){
+                                    return {...table, isAvailable, seats}
+                                 }
+
+                                 return table
+                              })
+
+                              return updated
+                           })
+                        }}
+                        />
                      })}
                   </div>
                </>

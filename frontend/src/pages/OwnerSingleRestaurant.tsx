@@ -74,6 +74,7 @@ export default function OwnerSingleRestaurant() {
    const [faultyFetch, setFaultyFetch] = useState<boolean>(false)
    const [loading, setLoading] = useState<boolean>(true)
    const [content, setContent] = useState<string>("tables")
+   const [tables, setTables] = useState<tableType[] | undefined>(undefined)
 
    const [editRestaurantDialog, setEditRestaurantDialog] = useState(false)
    const [btnloading, setbtnloading] = useState(false)
@@ -123,6 +124,7 @@ export default function OwnerSingleRestaurant() {
       getOwnerRestaurant(id)
          .then((response) => {
             setRestaurant(response.data)
+            setTables(response.data.tables)
          })
          .catch((error) => {
             console.log("Error while fetching a restaurant at the owner's side using its id: ", error)
@@ -134,7 +136,7 @@ export default function OwnerSingleRestaurant() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
-   const tables = restaurant?.tables
+   
 
    function getData() {
       let available = 0
@@ -158,7 +160,7 @@ export default function OwnerSingleRestaurant() {
          }
       })
 
-      const notAvailable = restaurant?._count.tables ? ((restaurant?._count.tables) - available) : 0
+      const notAvailable = tables?.length ? tables?.length - available : 0
 
       return [available, notAvailable, pending, pastReservations]
    }
@@ -197,7 +199,7 @@ export default function OwnerSingleRestaurant() {
                                  {
                                     id: 2,
                                     icon: <RectangleHorizontalIcon />,
-                                    value: `${restaurant?._count.tables} Tables`
+                                    value: `${tables?.length} Tables`
                                  },
                                  {
                                     id: 3,
@@ -245,7 +247,7 @@ export default function OwnerSingleRestaurant() {
                            ) :
                               (
                                  content == "tables" ? (
-                                    restaurant?._count.tables && restaurant?._count.tables > 0 ? (
+                                    tables?.length && tables.length > 0 ? (
                                        <OwnerTables tables={tables} />
                                     ) :
                                        (
@@ -255,10 +257,10 @@ export default function OwnerSingleRestaurant() {
                                        )
                                  ) :
                                     (
-                                       content == "table-settings" ? <TableSettings tables={tables} restaurantID={restaurant?.id} />
+                                       content == "table-settings" ? <TableSettings tables={tables} restaurantID={restaurant?.id} setGlobalTables={setTables}/>
                                           :
-                                          // content is all-reservations then ----
-                                          <RestaurantAllReservations tables={tables} />
+                                          // content is all-reservations, then ----
+                                          <RestaurantAllReservations tables={tables} setTables={setTables}/>
                                     )
                               )
                            }

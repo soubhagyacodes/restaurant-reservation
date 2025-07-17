@@ -19,7 +19,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/ui/select"
-import { Circle } from "lucide-react"
+import { Circle, Loader2, LoaderIcon } from "lucide-react"
 import { deleteTable, patchTable } from "@/api/tables"
 import { toast } from "sonner"
 
@@ -68,12 +68,13 @@ const formSchema = z.object({
    }, { message: "This field must be defined", path: ["isAvailable"] })
 
 
-export default function SettingsRow({ table, onDelete }: { table: tableType, onDelete: (id: string) => void }) {
+export default function SettingsRow({ table, onDelete, onDetailChange }: { table: tableType, onDelete: (id: string) => void, onDetailChange:  (id: string, isAvailable: boolean, seats: number) => void}) {
    const [varSeats, setSeats] = useState(table.seats)
    const [varisAvailable, setIsAvailable] = useState(table.isAvailable)
    const [editMode, setEditMode] = useState(false)
    const [deleteDialog, setDeleteDialog] = useState(false)
-
+   const [saveLoader, setSaveLoader] = useState(false)
+   const [deleteLoader, setDeleteLoader] = useState(false)
 
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -84,7 +85,7 @@ export default function SettingsRow({ table, onDelete }: { table: tableType, onD
    })
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
-      setEditMode(false)
+      setSaveLoader(true)
 
       const data = {
          seats: parseInt(values.seats),
@@ -95,20 +96,30 @@ export default function SettingsRow({ table, onDelete }: { table: tableType, onD
          await patchTable(table.id, data)
          setSeats(parseInt(values.seats))
          setIsAvailable(values.isAvailable == "available" ? true : false)
+         onDetailChange(table.id, values.isAvailable == "available" ? true : false, parseInt(values.seats))
+         
       } catch (error) {
          console.log("error while patching the table", error)
          toast.error("Something Went Wrong", { description: "Try updating the table later." })
       }
+      finally{
+         setEditMode(false)
+         setSaveLoader(false)
+      }
    }
 
    async function deleteHandler(){
-      setDeleteDialog(false)
+      setDeleteLoader(true)
       try {
          await deleteTable(table.id)
          onDelete(table.id)
       } catch (error) {
          console.log(error)
          toast.error("Something Went Wrong", {description: "Try deleting later."})
+      }
+      finally{
+         setDeleteDialog(false)
+         setDeleteLoader(false)
       }
    }
 
@@ -166,7 +177,7 @@ export default function SettingsRow({ table, onDelete }: { table: tableType, onD
                            </FormItem>
                         )}
                      />
-                     <Button className="inline-block w-fit bg-white border-green-400 border-1 text-green-400 hover:text-white hover:bg-green-400" type="submit">Save</Button>
+                     <Button className="flex gap-1 w-fit bg-white border-green-400 border-1 text-green-400 hover:text-white hover:bg-green-400" type="submit" disabled={saveLoader}>{saveLoader && <LoaderIcon className="animate-spin"/>}Save</Button>
                   </form>
                </Form>
 
@@ -182,7 +193,7 @@ export default function SettingsRow({ table, onDelete }: { table: tableType, onD
                </DialogHeader>
                <div className="flex justify-end gap-3">
                   <DialogClose asChild><Button variant={"outline"}>Close</Button></DialogClose>
-                  <Button className="bg-red-500 hover:bg-red-500/80" onClick={deleteHandler}>Delete Table</Button>
+                  <Button className="bg-red-500 hover:bg-red-500/80" onClick={deleteHandler} disabled={deleteLoader}>{deleteLoader && <Loader2 className="animate-spin"/>}Delete Table</Button>
                </div>
             </DialogContent>
          </Dialog>

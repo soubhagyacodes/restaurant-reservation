@@ -25,7 +25,7 @@ type tableType = {
    }[]
 }
 
-export default function RestaurantAllReservations({ tables }: { tables: tableType[] | undefined }) {
+export default function RestaurantAllReservations({ tables, setTables }: { tables: tableType[] | undefined, setTables: (tables : tableType[]) => void }) {
 
    const [searchQuery, setSearchQuery] = useState("")
 

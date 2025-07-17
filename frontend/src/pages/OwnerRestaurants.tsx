@@ -73,6 +73,7 @@ export default function OwnerRestaurants() {
 			const response = await registerRestaurant(values)
 			setRestaurants([...restaurants ?? [], response.data])
 			setAddRestaurantDialog(false)
+			form.reset()
 		} catch (error) {
 			handleCreateRestaurantErrors(error)
 		} finally{
@@ -149,7 +150,7 @@ export default function OwnerRestaurants() {
 										<FormItem>
 											<FormLabel className="font-bold">Name of the Restaurant</FormLabel>
 											<FormControl>
-												<Input placeholder="Name..." className="border-2" {...field} />
+												<Input placeholder="Name..." className="border-2" {...field} defaultValue={""}/>
 											</FormControl>
 											<FormDescription className="font-medium text-xs">
 												Enter the name of your new restaurant.
@@ -165,7 +166,7 @@ export default function OwnerRestaurants() {
 										<FormItem>
 											<FormLabel className="font-bold">Location</FormLabel>
 											<FormControl>
-												<Input placeholder="Location..." className="border-2" {...field} />
+												<Input placeholder="Location..." className="border-2" {...field} defaultValue={""}/>
 											</FormControl>
 											<FormDescription className="font-medium text-xs">
 												Enter the location of your restaurant.
@@ -185,6 +186,7 @@ export default function OwnerRestaurants() {
 													placeholder="Tell us a little bit about the restaurant"
 													className="resize-none"
 													{...field}
+													defaultValue={""}
 												/>
 											</FormControl>
 											<FormDescription className="font-medium text-xs">
