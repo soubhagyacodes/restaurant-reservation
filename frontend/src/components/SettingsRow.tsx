@@ -44,7 +44,7 @@ type tableType = {
       reservationTime: string,
       duration: number,
       status: string,
-      tabledId: string,
+      tableId: string,
       reservationBy: {
          _count: { reservations: number }
          id: string,

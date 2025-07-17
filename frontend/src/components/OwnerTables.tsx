@@ -12,7 +12,7 @@ type tableType = {
       reservationTime: string,
       duration: number,
       status: string,
-      tabledId: string,
+      tableId: string,
       reservationBy: {
          id: string,
          name: string,

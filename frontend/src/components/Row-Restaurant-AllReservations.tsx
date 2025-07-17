@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import {
    Dialog,
    DialogClose,
@@ -13,7 +13,29 @@ import { toast } from "sonner";
 import { assignStatus } from "@/api/management";
 import { AlertCircle, Check, X } from "lucide-react";
 
-export default function AllReservationsRestaurantRow({ reservation: { reservationID, date, duration, email, name, old, pastReservations, seats, status, tableNumber, time } }: { reservation: { reservationID: string, tableNumber: number, seats: number, name: string, email: string, pastReservations: number, old: boolean, duration: number, status: string, date: string, time: string } }) {
+type tableType = {
+   id: string,
+   tableNumber: number,
+   seats: number,
+   isAvailable: boolean,
+   restaurantId: string,
+   _count: { reservationHistory: number },
+   reservationHistory: {
+      id: string,
+      reservationTime: string,
+      duration: number,
+      status: string,
+      tableId: string,
+      reservationBy: {
+         _count: { reservations: number }
+         id: string,
+         name: string,
+         email: string
+      }
+   }[]
+}
+
+export default function AllReservationsRestaurantRow({ reservation: { reservationID, date, duration, email, name, old, pastReservations, seats, status, tableNumber, time, tableId }, setTables }: { reservation: { reservationID: string, tableNumber: number, seats: number, name: string, email: string, pastReservations: number, old: boolean, duration: number, status: string, date: string, time: string, tableId: string }, setTables: Dispatch<SetStateAction<tableType[] | undefined>> }) {
    const [varStatus, setStatus] = useState(status)
    const [confirmDialog, setConfirmDialog] = useState(false)
    const [cancelDialog, setCancelDialog] = useState(false)
@@ -23,6 +45,23 @@ export default function AllReservationsRestaurantRow({ reservation: { reservatio
 
       try {
          await assignStatus(reservationID, "CONFIRMED")
+         setTables((prev) => {
+            return prev?.map((table) => {
+               if (table.id == tableId) {
+                  const updatedReservations = table.reservationHistory.map((reservation) => {
+                     if (reservation.id == reservationID) {
+                        return { ...reservation, status: "CONFIRMED" }
+                     }
+
+                     return reservation
+                  })
+
+                  return { ...table, reservationHistory: updatedReservations }
+               }
+
+               return table
+            })
+         })
          setStatus("CONFIRMED")
       } catch (error) {
          console.log("Error while confirming a reservation: ", error)
@@ -34,6 +73,23 @@ export default function AllReservationsRestaurantRow({ reservation: { reservatio
       setCancelDialog(false)
       try {
          await assignStatus(reservationID, "CANCELLED")
+         setTables((prev) => {
+            return prev?.map((table) => {
+               if (table.id == tableId) {
+                  const updatedReservations = table.reservationHistory.map((reservation) => {
+                     if (reservation.id == reservationID) {
+                        return { ...reservation, status: "CANCELLED" }
+                     }
+
+                     return reservation
+                  })
+
+                  return { ...table, reservationHistory: updatedReservations }
+               }
+
+               return table
+            })
+         })
          setStatus("CANCELLED")
       } catch (error) {
          console.log("Error while cancelling a reservation: ", error)

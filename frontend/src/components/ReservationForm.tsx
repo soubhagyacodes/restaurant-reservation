@@ -98,6 +98,7 @@ export default function ReservationForm({ table, restaurant }: { table: tableTyp
       const loadingID = toast.loading("Loading...", { description: "Please wait while we reserve your table." })
       try {
          await createReservation(finalObject)
+         toast.dismiss(loadingID)
          setDialogOpen(true)
          // navigate("/my-reservations")
          // scrollTo({ behavior: "smooth", top: 0 })
@@ -124,8 +125,6 @@ export default function ReservationForm({ table, restaurant }: { table: tableTyp
          } catch (error) {
             console.log("Error While Sending the mail: ", error)
          }
-
-         toast.dismiss(loadingID)
       } catch (error) {
          handleCreateReservationErrors(error, loadingID)
       }
