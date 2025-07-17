@@ -24,7 +24,7 @@ export default function AuthProvider({ children }: { children: JSX.Element }) {
             .catch((error) => {
                 if(error instanceof AxiosError){
                     if(error.response){
-                        console.log("Unauthorized User: ", error)
+                        console.log("Unauthorized User, Login First: ", error)
                     }
                     else if(error.request){
                         toast.error("Something went wrong", {description: "Try Again Later."})
