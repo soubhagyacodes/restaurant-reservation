@@ -18,10 +18,22 @@ import { matchedData, validationResult } from "express-validator";
 const app = express()
 const port = process.env.PORT || 3000
 
+const allowedOrigins = [
+  process.env.CLIENT_URL_PROD,
+  process.env.CLIENT_URL_DEV
+];
+
 app.use(cors({
-    origin: process.env.CLIENT_URL_PROD,
-    credentials: true
-}))
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
 
 app.use(express.json())
 app.use(cookieParser())
