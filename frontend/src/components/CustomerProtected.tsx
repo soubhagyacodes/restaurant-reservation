@@ -12,7 +12,7 @@ export default function CustomerProtected({ children }: { children: JSX.Element 
         if (!loading) {
             if (!user) {
                 navigate("/login")
-                toast.error("Unauthorized Access", { description: "Login Again." })
+                toast.warning("Unauthorized Access", { description: "Please ensure that you have allowed third-party cookies and Login Again." })
             }
 
             else if (user.role !== "CUSTOMER") {

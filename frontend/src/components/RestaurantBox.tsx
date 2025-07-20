@@ -36,10 +36,13 @@ export default function RestaurantBox({ restaurant }: { restaurant: restaurantTy
     const availableTables = getAvailableTables()
 
     return (
-        <div className="p-8 grid grid-cols-12 font-[Rubik] rounded-lg border-1 border-gray-400/65 hover:border-orange-500 group duration-150">
+        <div className="md:py-8 md:px-8 px-4 py-3 md:grid md:grid-cols-12 w-full font-[Rubik] rounded-lg border-1 border-gray-400/65 hover:border-orange-500 group duration-150">
             <div className="col-span-9 cursor-pointer">
             <Link to={`/restaurants/${restaurant.id}`} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-                    <p className="text-3xl group-hover:text-orange-500 duration-150 font-medium">{restaurant.name}</p>
+            <div className="mt-2 md:text-base text-xs md:hidden">
+                        {availableTables > 0 ? <p className="text-green-500 font-semibold ">{availableTables} Table{availableTables > 1 ? "s" : ""} Available</p> : <p className="text-red-400 font-bold"> No Tables Available</p>}
+                    </div>
+                    <p className="md:text-3xl text-2xl group-hover:text-orange-500 duration-150 font-medium">{restaurant.name}</p>
 
                 <div className="flex items-center gap-3 mt-1">
 
@@ -50,21 +53,23 @@ export default function RestaurantBox({ restaurant }: { restaurant: restaurantTy
                         <RectangleHorizontal className="size-3" /> {restaurant.tables.length} Tables
                     </div>
                 </div>
-                <div className="mt-2 line-clamp-2 text-sm text-gray-700">{restaurant.description}</div>
-                <div className="mt-3">
-                        {availableTables > 0 ? <span className="text-green-500 font-semibold">{availableTables} Table{availableTables > 1 ? "s" : ""} Available</span> : <span className="text-red-400 font-bold"> No Tables Available</span>}
+                <div className="mt-2 line-clamp-2 md:text-sm text-xs text-gray-700">{restaurant.description}</div>
+                <div className="mt-3 md:block hidden">
+                        {availableTables > 0 ? <p className="text-green-500 font-semibold md:text-left text-center">{availableTables} Table{availableTables > 1 ? "s" : ""} Available</p> : <p className="text-red-400 font-bold"> No Tables Available</p>}
                     </div>
                </Link>
             </div>
 
             <div className="flex items-center col-span-3 ml-auto gap-5">
-                {restaurant.tables.length!= 0 ? <Button className="cursor-pointer bg-orange-400 hover:bg-amber-500/95 w-63 h-12 text-md font-[Satoshi] font-extrabold" onClick={() => {navigate(`/restaurants/${restaurant.id}/tables`); window.scrollTo({ top: 0, behavior: "smooth" })}}>Reserve a Table</Button> : (
-                    <div className="text-orange-500 font-medium">
+                {restaurant.tables.length!= 0 ? <Button className="cursor-pointer bg-orange-400 hover:bg-amber-500/95 w-full mt-4 md:mt-0 md:w-63 md:h-12 md:text-lg font-[Satoshi] font-extrabold" onClick={() => {navigate(`/restaurants/${restaurant.id}/tables`); window.scrollTo({ top: 0, behavior: "smooth" })}}>Reserve a Table</Button> : (
+                    <div className="text-orange-500 font-medium md:text-base text-sm">
                         (Reservations Starting Soon)
                     </div>
                 )}
                 {/* <HeartIcon className={"cursor-pointer text-red-500" + (favorite ? " fill-red-500" : "")} onClick={() => { setFavorite((value) => !value) }} /> */}
             </div>
+
+                
         </div>
                      
     )

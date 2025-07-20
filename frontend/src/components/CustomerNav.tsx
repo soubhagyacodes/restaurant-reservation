@@ -24,7 +24,7 @@ export default function CustomerNav() {
     }
 
     return (
-        <div className="sticky top-0 z-50 px-4 md:px-0 bg-white h-24 flex justify-between md:grid md:grid-cols-3 items-center border-b-1 border-gray-200 shadow-sm font-[Rubik]">
+        <div className="md:sticky top-0 z-50 px-4 md:px-0 bg-white h-24 flex justify-between md:grid md:grid-cols-3 items-center border-b-1 border-gray-200 shadow-sm font-[Rubik]">
             <div className="md:px-7">
                 <p className='LOGO text-3xl md:text-4xl font-[Satoshi] font-extrabold text-orange-400 select-none'>plated.</p>
             </div>
