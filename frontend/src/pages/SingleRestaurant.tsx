@@ -72,19 +72,19 @@ export default function SingleRestaurant() {
 
 
    return (
-      <div className='px-15 py-25 font-[Rubik]'>
+      <div className='md:px-15 md:py-25 py-16 px-5 font-[Rubik]'>
          {loading ? (
-               <div className='h-140 flex items-center justify-center text-2xl font-[Satoshi] font-bold gap-2'>
+               <div className='md:h-140 h-screen flex items-center justify-center text-2xl font-[Satoshi] font-bold gap-2'>
                   <Loader className='animate-spin size-6'/> Loading
                </div>
             ) :
             (faultyFetch ? (
-               <div className='h-140 flex  flex-col items-center justify-center font-[Satoshi] font-bold text-2xl gap-2'>
+               <div className='md:h-140 h-screen flex flex-col items-center justify-center text-center font-[Satoshi] font-bold md:text-2xl text-xl gap-2'>
                   <Bug className='size-10' /> Something Went Wrong. Please Refresh.
                </div>
             ) : (
                <>
-               <div className='flex justify-between'>
+               <div className='flex flex-col md:flex-row md:gap-0 gap-10 justify-between'>
                   <div className='flex flex-col gap-2'>
                      <p className='text-6xl font-extrabold font-[Satoshi] mb-5'>{restaurant?.name}</p>
                      <p className='flex gap-1 font-bold text-md'>{availableCount > 0 ? <span className='text-green-500'>{availableCount} Table{availableCount > 1 ? "s" : ""} Available</span> : <span className='text-red-500'>No Tables Available</span>}</p>
@@ -113,7 +113,7 @@ export default function SingleRestaurant() {
                       <div className='flex flex-col gap-1'>
                         {restaurant?.tables.map((table) => {
                            return (
-                              <div className='grid grid-cols-6 text-md'>
+                              <div className='md:grid flex gap-10 md:gap-0 grid-cols-6 text-md'>
                                  <div className='col-span-1 text-xl'>Table <span className='font-bold ml-1'>#{table.tableNumber}</span></div>
                                  <div className='col-span-1'>{table.isAvailable ? <span className='text-green-500 font-semibold'>Available</span> : <span className='text-red-500 font-semibold'>Not In Service</span>}</div>
                               </div>
