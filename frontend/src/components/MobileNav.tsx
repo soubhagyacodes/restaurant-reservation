@@ -7,7 +7,7 @@ export default function MobileNav() {
   const { pathname } = useLocation()
 
   return (
-    <div className="h-21 border-t-gray-400/50 border-1 fixed bottom-0 w-full md:hidden shadow-2xl bg-white grid grid-cols-3 px-1 items-center place-items-center gap-x-2">
+    <div className="h-21 border-t-gray-400/50 border-1 fixed bottom-0 select-none w-full md:hidden shadow-2xl bg-white grid grid-cols-3 px-1 items-center place-items-center gap-x-2">
       {[
         {
           id: 1,

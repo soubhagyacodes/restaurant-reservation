@@ -60,9 +60,9 @@ export default function ReservationBox({ reservation }: { reservation: reservati
    return (
       <div className={"font-[Rubik] border-1 border-t-0 overflow-hidden rounded-3xl " + (old ? "border-gray-500" : "border-orange-400")}>
          {old ? <p className="text-center bg-gray-500 text-white font-bold text-xl">Old Reservation</p> : (reservationStatus == "PENDING" ? <p className="text-center bg-yellow-400/90 text-white font-bold text-md">Pending</p> : (reservationStatus == "CANCELLED" ? <p className="text-center bg-red-400 text-white font-bold text-md">Cancelled</p> : <p className="text-center bg-green-400 text-white font-bold text-md">Confirmed</p>))}
-      <div className="grid grid-cols-4">
-         <div className="col-span-3 p-10">
-            <p className="text-gray-500 text-sm">Reservation id: {reservation.id}</p>
+      <div className="md:grid grid-cols-4">
+         <div className="col-span-3 md:p-10 p-5">
+            <p className="text-gray-500 md:text-sm text-xs">Reservation id: {reservation.id}</p>
             <p className={"text-4xl font-[Satoshi] font-extrabold " + (old ? "text-gray-500" : "")}>{reservation.tableReserved.ofRestaurant.name}</p>
             <div className={"grid grid-cols-2 mt-3 " + (old ? "text-gray-500" : "")}>
                <div>
@@ -77,13 +77,13 @@ export default function ReservationBox({ reservation }: { reservation: reservati
                </div>
             </div>
          </div>
-         <div className="btns col-span-1 flex flex-col items-center justify-center gap-6">
+         <div className="btns col-span-1 flex flex-col items-center justify-center md:gap-6 gap-3 pb-5 md:pb-0">
             <div>
-            <p className="text-sm mb-4 text-gray-500 text-center">Confirmation Status: </p>
-            {reservationStatus == "PENDING" ? <div className={"flex items-center justify-center text-3xl font-bold gap-x-2 " + (old ? "text-gray-500" : "text-yellow-300")}><AlertCircle className="size-10"/>  {reservationStatus}</div> : (reservationStatus == "CANCELLED" ? <div className={"flex items-center justify-center  text-3xl font-bold gap-x-2 " + (old ? "text-gray-500" : "text-red-400")}> <X className="size-9"/>{reservationStatus}</div> : <div className={"flex items-center justify-center  text-3xl font-bold gap-x-2 " + (old ? "text-gray-500" : "text-green-400")}><Check className="size-9"/>{reservationStatus}</div>)}
+            <p className="text-sm md:mb-4 mb-2 text-gray-500 text-center">Confirmation Status: </p>
+            {reservationStatus == "PENDING" ? <div className={"flex items-center justify-center md:text-3xl text-2xl font-bold gap-x-2 " + (old ? "text-gray-500" : "text-yellow-300")}><AlertCircle className="md:size-10 size-8"/>  {reservationStatus}</div> : (reservationStatus == "CANCELLED" ? <div className={"flex items-center justify-center  md:text-3xl text-2xl font-bold gap-x-2 " + (old ? "text-gray-500" : "text-red-400")}> <X className="md:size-9 size-6"/>{reservationStatus}</div> : <div className={"flex items-center justify-center  md:text-3xl text-2xl font-bold gap-x-2 " + (old ? "text-gray-500" : "text-green-400")}><Check className="md:size-9 size-7"/>{reservationStatus}</div>)}
             </div>
-            <div className="flex items-center justify-center ">
-            {old ? <Button className="bg-gray-500/90 h-12 w-50" disabled><Trash2/>Cancel Reservation</Button> : (reservationStatus != "CANCELLED" ? <Button className="bg-red-500/90 h-12 w-50 hover:bg-red-500/80" onClick={btnHandler} ><Trash2 />Cancel Reservation</Button> : (loading ? <Button className="bg-red-500/90 h-12 w-50" disabled><Loader2Icon className="animate-spin"/>Cancel Reservation</Button> : <Button className="bg-red-500/90 h-12 w-50" disabled><Trash2/>Cancel Reservation</Button>))}
+            <div className="flex items-center justify-center w-full md:w-fit px-5 md:px-0">
+            {old ? <Button className="bg-gray-500/90 h-12 md:w-50 w-full" disabled><Trash2/>Cancel Reservation</Button> : (reservationStatus != "CANCELLED" ? <Button className="bg-red-500/90 h-12 md:w-50 hover:bg-red-500/80" onClick={btnHandler} ><Trash2 />Cancel Reservation</Button> : (loading ? <Button className="bg-red-500/90 h-12 w-50" disabled><Loader2Icon className="animate-spin"/>Cancel Reservation</Button> : <Button className="bg-red-500/90 h-12 w-50" disabled><Trash2/>Cancel Reservation</Button>))}
 
             </div>
          </div>

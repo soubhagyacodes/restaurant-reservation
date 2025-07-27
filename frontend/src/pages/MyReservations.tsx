@@ -45,35 +45,35 @@ export default function MyReservations() {
 	
 	
 	return (
-		<div className="min-h-screen p-15 font-[Rubik]">
+		<div className="md:min-h-screen md:p-15 px-4 pt-15 font-[Rubik]">
 			<div className="font-[Satoshi] pt-8">
-				<p className="text-7xl text-center font-extrabold">My Reservations</p>
-				<p className="text-center mt-4 text-2xl font-bold text-orange-400">Your reserved tables, all in one place</p>
+				<p className="md:text-7xl text-5xl md:text-center font-extrabold">My Reservations</p>
+				<p className="md:text-center md:mt-4 md:text-2xl text-lg font-bold text-orange-400">Your reserved tables, all in one place</p>
 			</div>
 
-			<div className="min-h-100 mt-13">
+			<div className="md:min-h-100 mt-13">
 				{
 					loading ? (
-						<div className="h-100 flex items-center justify-center text-2xl gap-2">
+						<div className="md:h-100 h-72 flex items-center justify-center md:text-2xl text-xl gap-2">
 							<Loader className="animate-spin"/> Loading...
 						</div>
 					) : faultyFetch ? (
-						<div className="h-100 flex items-center justify-center text-2xl gap-2">
+						<div className="md:h-100 h-60 flex items-center justify-center text-center text-lg md:text-2xl gap-2">
 							Something Went Wrong, Please Refresh or Try Again Later.
 						</div>
 					) : (
-						oldReservations?.length == 0 && newReservations?.length == 0 ? (
-						<div className="h-100 flex items-center justify-center text-2xl gap-2">
+						(oldReservations?.length == 0 && newReservations?.length == 0) ? (
+						<div className="md:h-100 h-72 flex items-center justify-center md:text-2xl text-xl gap-2">
 							No Reservations Yet.
 						</div>
 						) :
 						<>
-						<div className={"min-h-120 space-y-8 " + (oldReservations && oldReservations?.length > 0 ? "mb-20" : "")}>
+						<div className={"space-y-8 " + (oldReservations && oldReservations?.length > 0 ? "md:mb-20 mb-10" : "")}>
 							{newReservations?.map((reservation) => <ReservationBox reservation={reservation} key={reservation.id}/>)}
 						</div>
 						{(oldReservations && oldReservations?.length > 0) && <div>
 							<p className="mb-12 text-4xl font-[Satoshi] font-extrabold">- Old Reservations</p>
-							<div className="space-y-8">{oldReservations?.map((reservation) => <ReservationBox reservation={reservation} key={reservation.id}/> )}</div>
+							<div className="space-y-8 mb-10 md:mb-0">{oldReservations?.map((reservation) => <ReservationBox reservation={reservation} key={reservation.id}/> )}</div>
 						</div>}
 						</>
 					)
