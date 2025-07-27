@@ -3,15 +3,15 @@ import useAuth from "@/hooks/useAuth"
 export default function CustomerProfile() {
    const {user} = useAuth()
    return (
-      <div className="min-h-110 p-15 font-[Satoshi] space-y-18">
-         <div className="space-y-3">
-            <h1 className="text-6xl font-extrabold">{user?.name}</h1>
-            <p className="text-2xl">{user?.email}</p>
+      <div className="md:p-15 pt-16 px-4 pb-10 font-[Satoshi] md:space-y-18 space-y-10">
+         <div className="md:space-y-3">
+            <h1 className="md:text-6xl text-4xl font-extrabold">{user?.name}</h1>
+            <p className="md:text-2xl text-xl">{user?.email}</p>
          </div>
 
          <div className="">
-            <p className="text-4xl font-bold">Details</p>
-            <div className="mt-5 text-xl">
+            <p className="md:text-4xl text-3xl font-bold">Details</p>
+            <div className="mt-5 md:text-xl text-lg md:space-y-0 space-y-3">
                {[
                   {
                      id: 1,
@@ -23,7 +23,7 @@ export default function CustomerProfile() {
                      title: "Customer id",
                      value: user?.id
                   },
-               ].map(({id, title, value}) => <div className="grid-cols-12 grid" key={id}><span className="col-span-2 font-bold">{title}</span><span className="col-span-10">{value}</span></div>)}
+               ].map(({id, title, value}) => <div className="grid-cols-12 md:grid flex flex-col" key={id}><span className="col-span-2 font-bold">{title}</span><span className="col-span-10">{value}</span></div>)}
             </div>
          </div>
       </div>
