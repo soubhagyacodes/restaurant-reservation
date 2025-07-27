@@ -70,24 +70,24 @@ export default function Tables() {
 
 
 	return (
-		<div className="min-h-120 font-[Rubik] p-14">
+		<div className="min-h-120 font-[Rubik] md:p-14 px-5 pt-14 pb-7">
 			{loading ? (
-				<div className="min-h-150 text-2xl font-[Satoshi] font-bold flex items-center justify-center gap-2">
-					<Loader className="animate-spin size-8" /> Loading
+				<div className="min-h-150 text-2xl font-[Satoshi] md:font-bold font-semibold flex items-center justify-center gap-2">
+					<Loader className="animate-spin md:size-8" /> Loading
 				</div>
 			) : (
 				faultyFetch ? (
-					<div className="min-h-150 text-3xl font-[Satoshi] font-medium flex items-center justify-center">
+					<div className="min-h-150 md:text-3xl text-xl text-center font-[Satoshi] font-medium flex items-center justify-center">
 						Something Went Wrong. Please Refresh or Try Again Later.
 					</div>
 				) : (
 					<>
-						<p className="text-2xl">Select your Table from <b>{restaurant?.name}</b></p>
+						<p className="md:text-2xl text-xl">Select your Table from <b>{restaurant?.name}</b></p>
 						{/* <div className="flex gap-3 mt-1 text-sm">
 							<p className="text-green-400 flex items-center font-semibold gap-1"><Circle className="fill-green-400 text-green-400 size-3"/> Available</p>
 							<p className="text-red-400 flex items-center font-semibold gap-1"><Circle className="fill-red-400 text-red-400 size-3"/> Reserved</p>
 						</div> */}
-						<div className="grid grid-cols-9 mt-5">
+						<div className="md:grid grid-cols-9 mt-5 space-y-10 md:space-y-0">
 							<div className="flex flex-col justify-between col-span-6 pt-15 pb-7 bg-orange-100/70 min-h-120 border-2 border-orange-300 rounded-md shadow-xs shadow-orange-400">
 								<div className="grid grid-cols-3 auto-rows-min gap-y-20 items-center place-items-center">
 									{restaurant?.tables.map((table) => <TableWithChairs table={table} big={false}/>)}
